@@ -17,7 +17,7 @@ import com.mongodb.DBObject;
 @Transactional
 public class UserService {
  
-    static String db_name = "mydb", db_collection = "mycollection";
+    static String db_name = "dbwebflower", db_collection = "user";
     private static Logger log = Logger.getLogger(UserService.class);
  
     // Fetch all users from the mongo database.
