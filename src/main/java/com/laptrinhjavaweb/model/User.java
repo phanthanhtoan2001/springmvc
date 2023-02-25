@@ -6,9 +6,17 @@ public class User implements Serializable {
  
     private static final long serialVersionUID = 1L;
  
-    private String id, name,password;
+    private String id, name,password,email;
  
-    public String getPassword() {
+    public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
 		return password;
 	}
 
