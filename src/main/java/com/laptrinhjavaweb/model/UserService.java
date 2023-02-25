@@ -21,7 +21,7 @@ public class UserService {
     private static Logger log = Logger.getLogger(UserService.class);
  
     // Fetch all users from the mongo database.
-    public List getAll() {
+    public static List getAll() {
         List user_list = new ArrayList();
         DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
  
