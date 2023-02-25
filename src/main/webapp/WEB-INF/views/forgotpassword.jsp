@@ -70,7 +70,7 @@
 							class="focus-input100"></span>
 					</div>
 					<div class="p-t-31 p-b-9">
-						<span class="txt1" style=color:"red";> ${error} </span>
+						<span style="color:#ff0000;font-size: 16px;" class="txt1" > ${error} </span>
 					</div>
 					<div class="container-login100-form-btn m-t-17">
 						<button id='login' class="login100-form-btn" type="submit">Gửi Email</button>

@@ -6,10 +6,18 @@ public class User implements Serializable {
  
     private static final long serialVersionUID = 1L;
  
-    private String id, name,password,email;
+    private String id, name,password,email,roles;
  
     public String getEmail() {
 		return email;
+	}
+
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
 
 	public void setEmail(String email) {
