@@ -68,7 +68,7 @@ public class LoginController {
 			BasicDBObject doc = new BasicDBObject();
 			doc.put("id", Integer.toString(temp));
 			doc.put("name", googleu.getEmail());
-			doc.put("password", "$!#@^#$%^#$%#$%ASDASDasdasdasd");
+			doc.put("password", "$!#@^#$%^#$%#$%DoBaN^&%Bi@tDuoc@P^S$D0");
 			doc.put("roles", "customer");
 			doc.put("email", googleu.getEmail());
 			User tempus = new User();
