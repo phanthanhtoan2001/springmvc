@@ -66,7 +66,10 @@
 						Facebook
 					</a> -->
 
-					<a style="width: 100%;" href="#" class="btn-google m-b-20"> <img
+					<a style="width: 100%;"
+						href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8088/java-web/login-google&response_type=code
+    &client_id=956135245192-22i5sjfufdgc7dd7oalch4o5e98fd4s8.apps.googleusercontent.com&approval_prompt=force"
+						class="btn-google m-b-20"> <img
 						src=<c:url value='/template/images/icons/icon-google.png'/>
 						alt="GOOGLE"> Google
 					</a>
@@ -81,17 +84,19 @@
 					</div>
 
 					<div class="p-t-13 p-b-9">
-						<span class="txt1"> Password </span> <a href="${pageContext.request.contextPath }/user/forgot" id='forgot'
-							class="txt2 bo1 m-l-5"> Forgot? </a>
+						<span class="txt1"> Password </span> <a
+							href="${pageContext.request.contextPath }/user/forgot"
+							id='forgot' class="txt2 bo1 m-l-5"> Forgot? </a>
 					</div>
 					<div class="wrap-input100 validate-input"
 						data-validate="Password is required">
-						<input class="input100" type="password" name="password">
-						<span class="focus-input100"></span>
+						<input class="input100" type="password" name="password"> <span
+							class="focus-input100"></span>
 					</div>
 
 					<div class="container-login100-form-btn m-t-17">
-						<button id='login' type="submit" class="login100-form-btn">Sign In</button>
+						<button id='login' type="submit" class="login100-form-btn">Sign
+							In</button>
 					</div>
 
 					<div class="w-full text-center p-t-55">
@@ -126,19 +131,19 @@
     }); -->
 
 
-	
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			toastr.options.timeOut = 1500; // 1.5s
-			 toastr.info('Xin chào!'); 
-			
+			toastr.info('Xin chào!');
+
 			$('#login').click(function() {
-			
+
 				toastr.info('Đang tiến hành!');
-				
+
 			});
 		});
-	</script> 
+	</script>
 
 	<div id="dropDownSelect1"></div>
 

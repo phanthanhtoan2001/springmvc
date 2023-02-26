@@ -8,8 +8,6 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.MongoException;
-import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoDatabase;
 
 @SuppressWarnings("deprecation")
 public class MongoFactory {
@@ -34,7 +32,7 @@ public class MongoFactory {
 		}
 		return mongo;
 	}*/
-	
+
 	public static MongoClient getMongoClient() {
 	    int port_no = 27017;
 	   // String hostname = "localhost";
@@ -42,7 +40,7 @@ public class MongoFactory {
 	    try {
 	    	 mongoClient = new MongoClient(new MongoClientURI("mongodb+srv://la04111:123123asD@dbwebflower.cxvlwuj.mongodb.net/?retryWrites=true&w=majority"));
 	       // mongoClient = new MongoClient(new ServerAddress(hostname, port_no));
-	    	
+
 	    } catch (MongoException ex) {
 	        log.error("Failed to create MongoClient", ex);
 	    }

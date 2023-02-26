@@ -16,6 +16,7 @@ public class MailServiceImpl implements MailService
 	@Autowired
 	JavaMailSender mailSender;
 
+	@Override
 	public void sendEmail(final String senderEmailId, final String receiverEmailId,
 			final String subject, final String message)
 	{
@@ -23,6 +24,7 @@ public class MailServiceImpl implements MailService
 		MimeMessagePreparator preparator = new MimeMessagePreparator()
 		{
 
+			@Override
 			public void prepare(MimeMessage mimeMessage) throws Exception
 			{
 				mimeMessage.setFrom(senderEmailId);

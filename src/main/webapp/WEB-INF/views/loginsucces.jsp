@@ -10,6 +10,7 @@
 <body>
 	<h1>
 	${sessionScope.username}
+	${sessionScope.emailsession}
 	</h1>
 </body>
 </html>
