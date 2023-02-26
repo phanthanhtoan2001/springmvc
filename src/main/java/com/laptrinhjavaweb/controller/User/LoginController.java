@@ -37,10 +37,77 @@ public class LoginController {
 	@Resource(name = "userService")
 	private UserService userService;
 
-	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String login() {
+	@RequestMapping(value = "checklogingoogle", method = RequestMethod.GET)
+	public String checklogingoogle(HttpSession session) {
+		User u = new User();
+		User googleu = (User) session.getAttribute("loginsession");
+		try {
+			DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
+			DBObject where_query = new BasicDBObject();
+			where_query.put("email", googleu.getEmail());
+
+			DBObject dbo = coll.findOne(where_query);
+			u.setId(dbo.get("id").toString());
+			u.setName(dbo.get("name").toString());
+			u.setEmail(dbo.get("email").toString());
+			u.setRoles(dbo.get("roles").toString());
+			session.setAttribute("loginsession", u);
+
+		} catch (Exception e) {
+			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
+			DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
+			String id = "";
+			DBCursor cursor = colls.find();
+			while (cursor.hasNext()) {
+				DBObject dbObject = cursor.next();
+				id = dbObject.get("id").toString();
+			}
+			// Create a new object and add the new user details to this object.
+			Integer temp = Integer.parseInt(id) + 1;
+			BasicDBObject doc = new BasicDBObject();
+			doc.put("id", Integer.toString(temp));
+			doc.put("name", googleu.getEmail());
+			doc.put("password", "$!#@^#$%^#$%#$%ASDASDasdasdasd");
+			doc.put("roles", "customer");
+			doc.put("email", googleu.getEmail());
+			User tempus = new User();
+			tempus.setEmail(googleu.getEmail());
+			tempus.setId(Integer.toString(temp));
+			tempus.setName(googleu.getEmail());
+			tempus.setRoles("customercustomer");
+
+			// Save a new user to the mongo collection.
+			colls.insert(doc);
+			session.setAttribute("loginsession", tempus);
+			return "loginsucces";
+		}
+
+		return "loginsucces";
+	}
+
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public String login(HttpSession session) {
+		try {
+			User checklogin = (User) session.getAttribute("loginsession");
+			if (!checklogin.getName().isEmpty()) {
+
+				return "loginsucces";
+			} else
+				return "login";
+
+		} catch (Exception ex) {
+			return "login";
+		}
+
+	}
+
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+
+		session.setAttribute("loginsession", null);
 		return "login";
+
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
@@ -51,26 +118,27 @@ public class LoginController {
 			DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
 			DBObject where_query = new BasicDBObject();
-			where_query.put("name", username.toString());
-			where_query.put("password", password);
+			where_query.put("password", password.toString());
+			where_query.put("email", username.toString());
 
 			DBObject dbo = coll.findOne(where_query);
 			u.setId(dbo.get("id").toString());
 			u.setName(dbo.get("name").toString());
+			u.setEmail(dbo.get("email").toString());
+			u.setRoles(dbo.get("roles").toString());
 			u.setPassword(dbo.get("password").toString());
 
 		} catch (Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
+			modelMap.put("error", "Không tồn tại Email này trong hệ thống hoặc Sai tài khoản hoặc mật khẩu !");
 			return "login";
 		}
-		if (username.equalsIgnoreCase(u.getName()) && password.equalsIgnoreCase(u.getPassword())) {
-			session.setAttribute("username", u.getName());
-
-			modelMap.put("error", session.getValue("username"));
+		if (username.equalsIgnoreCase(u.getEmail()) && password.equalsIgnoreCase(u.getPassword())) {
+			session.setAttribute("loginsession", u);
 
 			return "loginsucces";
 		} else {
-			modelMap.put("error", "Invalid Account");
+			modelMap.put("error", "Sai tài khoản hoặc mật khẩu !");
 
 			return "login";
 		}
@@ -84,35 +152,53 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "regis", method = RequestMethod.POST)
-	public String processRegistration(@ModelAttribute("userForm") User user, Map<String, Object> model) {
-
+	public String processRegistration(@RequestParam("username") String username,
+			@RequestParam("password") String password, @RequestParam("email") String email, Map<String, Object> model,
+			ModelMap modelMap) {
+		User u = new User();
 		// implement your own registration logic here...
 		try {
 			DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+
+			DBObject where_query = new BasicDBObject();
+			where_query.put("email", email.toString());
+
+			DBObject dbo = coll.findOne(where_query);
+			u.setId(dbo.get("id").toString());
+			u.setName(dbo.get("name").toString());
+			u.setEmail(dbo.get("email").toString());
+			u.setRoles(dbo.get("roles").toString());
 			// get id add
-			String id = "";
-			DBCursor cursor = coll.find();
-			while (cursor.hasNext()) {
-				DBObject dbObject = cursor.next();
-				id = dbObject.get("id").toString();
-			}
-			// Create a new object and add the new user details to this object.
-			Integer temp = Integer.parseInt(id) + 1;
-			BasicDBObject doc = new BasicDBObject();
-			doc.put("id", Integer.toString(temp));
-			doc.put("name", user.getName());
-			doc.put("password", user.getPassword());
-			doc.put("idrole", 2);
-			doc.put("role", "customer");
-			// Save a new user to the mongo collection.
-			coll.insert(doc);
-
+			modelMap.put("error", "Đã tồn tại email hoặc tài khoản này trong hệ thống!");
 		} catch (Exception e) {
+			if (!username.toString().isEmpty() || !password.toString().isEmpty() || !email.toString().isEmpty()) {
 
-			log.error("An error occurred while saving a new user to the mongo database", e);
+				DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
+				String id = "";
+				DBCursor cursor = colls.find();
+				while (cursor.hasNext()) {
+					DBObject dbObject = cursor.next();
+					id = dbObject.get("id").toString();
+				}
+				// Create a new object and add the new user details to this object.
+				Integer temp = Integer.parseInt(id) + 1;
+				BasicDBObject doc = new BasicDBObject();
+				doc.put("id", Integer.toString(temp));
+				doc.put("name", username.toString());
+				doc.put("password", password.toString());
+				doc.put("roles", "customer");
+				doc.put("email", email.toString());
+				// Save a new user to the mongo collection.
+				colls.insert(doc);
+				return "login";
+			} else {
+				modelMap.put("error",
+						"Vui lòng nhập đầy đủ thông tin!");
+				return "Register";
+			}
 		}
 		// for testing purpose:
-		return "welcome";
+		return "Register";
 	}
 
 	@RequestMapping(value = "forgot", method = RequestMethod.GET)

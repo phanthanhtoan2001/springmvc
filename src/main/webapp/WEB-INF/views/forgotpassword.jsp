@@ -59,7 +59,7 @@
 				<form class="login100-form validate-form flex-sb flex-w"
 					method="post"
 					action="${pageContext.request.contextPath }/user/forgot">
-					
+						<span class="login100-form-title p-b-53"> Forgot Password </span>
 
 					<div class="p-t-31 p-b-9">
 						<span class="txt1"> Email </span>

@@ -75,11 +75,11 @@
 					</a>
 
 					<div class="p-t-31 p-b-9">
-						<span class="txt1"> Username </span>
+						<span class="txt1"> Email </span>
 					</div>
 					<div class="wrap-input100 validate-input"
 						data-validate="Username is required">
-						<input class="input100" type="text" name="username"> <span
+						<input class="input100" type="email" name="username"> <span
 							class="focus-input100"></span>
 					</div>
 
@@ -93,14 +93,18 @@
 						<input class="input100" type="password" name="password"> <span
 							class="focus-input100"></span>
 					</div>
-
+					<div class="p-t-31 p-b-9">
+						<span style="color: #ff0000; font-size: 16px;" class="txt1">
+							${error} </span>
+					</div>
 					<div class="container-login100-form-btn m-t-17">
 						<button id='login' type="submit" class="login100-form-btn">Sign
 							In</button>
 					</div>
 
 					<div class="w-full text-center p-t-55">
-						<span class="txt2"> Not a member? </span> <a href="#"
+						<span class="txt2"> Not a member? </span> <a
+							href="${pageContext.request.contextPath }/user/regis"
 							class="txt2 bo1"> Sign up now </a>
 					</div>
 				</form>

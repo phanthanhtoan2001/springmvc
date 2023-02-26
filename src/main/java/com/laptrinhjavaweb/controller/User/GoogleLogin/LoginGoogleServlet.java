@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.laptrinhjavaweb.model.User;
+
 
 @WebServlet("/login-google")
 public class LoginGoogleServlet extends HttpServlet {
@@ -24,7 +26,7 @@ public class LoginGoogleServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String code = request.getParameter("code");
 		if (code == null || code.isEmpty()) {
-			RequestDispatcher dis = request.getRequestDispatcher("login.jsp");
+			RequestDispatcher dis = request.getRequestDispatcher("/user/login");
 			dis.forward(request, response);
 		} else {
 		
@@ -33,8 +35,15 @@ public class LoginGoogleServlet extends HttpServlet {
 			request.setAttribute("id", googlePojo.getId());
 			request.setAttribute("name", googlePojo.getName());
 			request.setAttribute("email", googlePojo.getEmail());
-			request.getSession().setAttribute("emailsession", googlePojo.getEmail());
-			RequestDispatcher dis = request.getRequestDispatcher("/user/loginsucces");
+			//
+			User u = new User();
+			u.setEmail(googlePojo.getEmail());
+			u.setName(googlePojo.getName());
+			
+			//
+			
+			request.getSession().setAttribute("loginsession", u);
+			RequestDispatcher dis = request.getRequestDispatcher("/user/checklogingoogle");
 			dis.forward(request, response);
 		}
 	}
