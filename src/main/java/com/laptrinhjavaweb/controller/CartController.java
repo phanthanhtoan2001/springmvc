@@ -28,8 +28,9 @@ public class CartController {
 	
 
 	@RequestMapping(value = "index", method = RequestMethod.GET)
-	public String index() {
-		return "cart/index";
+	public String index(HttpSession session) {
+		List<Item> cart = (List<Item>) session.getAttribute("cart");
+		return "cart/cartindex";
 	}
 
 	@RequestMapping(value = "buy/{id}", method = RequestMethod.GET)
@@ -62,6 +63,27 @@ public class CartController {
 		session.setAttribute("cart", cart);
 		return "redirect:/cart/index";
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "update/{id}/{ss}", method = RequestMethod.GET)
+	public String update(@PathVariable("id") String id,@PathVariable("ss") String ss ,HttpSession session) {
+		List flower_list = FlowerService.getAll();
+		List<Item> cart = (List<Item>) session.getAttribute("cart");
+		int index = this.exists(id, cart);
+		int quantity = cart.get(index).getQuantity();
+		Flower flower = FlowerService.find(id);
+		int stock = flower.getStock();
+		if(ss.equals("MINUS") ) quantity -= 1;
+		else quantity += 1;
+		if(quantity <= 0 ) quantity = 1;
+		else if (quantity > stock) quantity = stock;
+		
+		cart.get(index).setQuantity(quantity);
+		session.setAttribute("cart", cart);
+		return "redirect:/cart/index";
+	}
 
 	private int exists(String id, List<Item> cart) {
 		for (int i = 0; i < cart.size(); i++) {
@@ -71,15 +93,15 @@ public class CartController {
 		}
 		return -1;
 	}
-	
+
 	
 	
 	@RequestMapping(value = "remove/all}", method = RequestMethod.GET)
 	public String removeall(HttpSession session) {
-		List flower_list = FlowerService.getAll();
+//		List flower_list = FlowerService.getAll();
 		List<Item> cart = (List<Item>) session.getAttribute("cart");
-		List<Item> cart1 = new ArrayList<Item>();
-		session.setAttribute("cart", cart1);
+		cart.removeAll(cart);
+		session.setAttribute("cart", cart);
 		return "redirect:/cart/index";
 	}
 }

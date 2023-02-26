@@ -41,7 +41,7 @@
 		</tr>
 	</table>
 	<br>
-		<a href="${pageContext.request.contextPath }/cart/removeall">Clear your cart</a>
+		<a href="${pageContext.request.contextPath }/cart/remove/all">Clear your cart</a>
 	<br>
 	<a href="${pageContext.request.contextPath }/flower">Continue
 		Shopping</a>

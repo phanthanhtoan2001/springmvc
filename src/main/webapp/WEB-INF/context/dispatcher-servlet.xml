@@ -21,8 +21,9 @@
               http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:component-scan
-		base-package="com.laptrinhjavaweb.controller" />
-
+	base-package="com.laptrinhjavaweb.controller" />
+	<mvc:resources mapping="/resources/**"
+		location="/resources/bootstrap/" cache-period="31556926" />
 	<mvc:annotation-driven />
 
 	<bean
@@ -33,4 +34,7 @@
 		<property name="suffix" value=".jsp" />
 
 	</bean>
+
+
+
 </beans>

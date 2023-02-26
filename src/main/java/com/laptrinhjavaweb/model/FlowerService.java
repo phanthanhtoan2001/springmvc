@@ -37,6 +37,7 @@ public class FlowerService {
             flower.setPrice((double)dbObject.get("price"));
             flower.setDescription(dbObject.get("description").toString());
             flower.setUrl(dbObject.get("image").toString());
+            flower.setStock((int)dbObject.get("stock"));
  
             // Adding the user details to the list.
             flower_list.add(flower);
