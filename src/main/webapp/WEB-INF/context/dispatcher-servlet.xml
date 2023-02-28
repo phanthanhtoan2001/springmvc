@@ -27,6 +27,9 @@
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/template/**"
 		location="/template/" />
+
+	<mvc:resources mapping="/template/images_admin/**"
+		location="/template/images_admin/" />
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 	<bean
@@ -40,7 +43,7 @@
 		<property name="suffix" value=".jsp" />
 
 	</bean>
-	
-	
+
+
 	<!-- -->
 </beans>
