@@ -6,12 +6,12 @@
 <link href="<c:url value="/resources/css/cartindex.css" />"
 	rel="stylesheet">
 <link href="<c:url value="/resources/css/bootstrap.min.css" />"
-  rel="stylesheet">
-  <link href="<c:url value="/resources/css/font-awesome.min.css" />"
-  rel="stylesheet">
-  <script src="<c:url value="/resources/js/jquery.min.js" />"></script>
+	rel="stylesheet">
+<link href="<c:url value="/resources/css/font-awesome.min.css" />"
+	rel="stylesheet">
+<script src="<c:url value="/resources/js/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrap.bundle.js" />"></script>
-  
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Cart Page</title>
 </head>
@@ -46,8 +46,10 @@
 								<div class="row">${item.flower.name }</div>
 							</div>
 							<div class="col">
-								<a href="${pageContext.request.contextPath }/cart/update/${item.flower.flowerid }/MINUS ">-</a><a href="#" class="border">${item.quantity }</a><a
-									href="#">+</a>
+								<a
+									href="${pageContext.request.contextPath }/cart/update/${item.flower.flowerid }/MINUS ">-</a><a
+									href="#" class="border">${item.quantity }</a><a
+									href="${pageContext.request.contextPath }/cart/update/${item.flower.flowerid }/PLUS">+</a>
 							</div>
 							<div class="col">
 								&euro; ${item.flower.price * item.quantity } <span><a
@@ -57,40 +59,40 @@
 						</div>
 					</div>
 				</c:forEach>
-<!-- 				<div class="row"> -->
-<!-- 					<div class="row main align-items-center"> -->
-<!-- 						<div class="col-2"> -->
-<!-- 							<img class="img-fluid" src="https://i.imgur.com/ba3tvGm.jpg"> -->
-<!-- 						</div> -->
-<!-- 						<div class="col"> -->
-<!-- 							<div class="row text-muted">Shirt</div> -->
-<!-- 							<div class="row">Cotton T-shirt</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="col"> -->
-<!-- 							<a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> -->
-<!-- 						</div> -->
-<!-- 						<div class="col"> -->
-<!-- 							&euro; 44.00 <span class="close">&#10005;</span> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="row border-top border-bottom"> -->
-<!-- 					<div class="row main align-items-center"> -->
-<!-- 						<div class="col-2"> -->
-<!-- 							<img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"> -->
-<!-- 						</div> -->
-<!-- 						<div class="col"> -->
-<!-- 							<div class="row text-muted">Shirt</div> -->
-<!-- 							<div class="row">Cotton T-shirt</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="col"> -->
-<!-- 							<a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> -->
-<!-- 						</div> -->
-<!-- 						<div class="col"> -->
-<!-- 							&euro; 44.00 <span class="close">&#10005;</span> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
+				<!-- 				<div class="row"> -->
+				<!-- 					<div class="row main align-items-center"> -->
+				<!-- 						<div class="col-2"> -->
+				<!-- 							<img class="img-fluid" src="https://i.imgur.com/ba3tvGm.jpg"> -->
+				<!-- 						</div> -->
+				<!-- 						<div class="col"> -->
+				<!-- 							<div class="row text-muted">Shirt</div> -->
+				<!-- 							<div class="row">Cotton T-shirt</div> -->
+				<!-- 						</div> -->
+				<!-- 						<div class="col"> -->
+				<!-- 							<a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> -->
+				<!-- 						</div> -->
+				<!-- 						<div class="col"> -->
+				<!-- 							&euro; 44.00 <span class="close">&#10005;</span> -->
+				<!-- 						</div> -->
+				<!-- 					</div> -->
+				<!-- 				</div> -->
+				<!-- 				<div class="row border-top border-bottom"> -->
+				<!-- 					<div class="row main align-items-center"> -->
+				<!-- 						<div class="col-2"> -->
+				<!-- 							<img class="img-fluid" src="https://i.imgur.com/pHQ3xT3.jpg"> -->
+				<!-- 						</div> -->
+				<!-- 						<div class="col"> -->
+				<!-- 							<div class="row text-muted">Shirt</div> -->
+				<!-- 							<div class="row">Cotton T-shirt</div> -->
+				<!-- 						</div> -->
+				<!-- 						<div class="col"> -->
+				<!-- 							<a href="#">-</a><a href="#" class="border">1</a><a href="#">+</a> -->
+				<!-- 						</div> -->
+				<!-- 						<div class="col"> -->
+				<!-- 							&euro; 44.00 <span class="close">&#10005;</span> -->
+				<!-- 						</div> -->
+				<!-- 					</div> -->
+				<!-- 				</div> -->
 				<div class="back-to-shop">
 					<a href="${pageContext.request.contextPath }/flower">&leftarrow;</a><span
 						class="text-muted">continue shopping</span>
@@ -119,7 +121,8 @@
 					<div class="col">TOTAL PRICE</div>
 					<div class="col text-right">&euro; ${total }</div>
 				</div>
-				<button class="btn">CHECKOUT</button>
+				<a href="${pageContext.request.contextPath }/payment" class="btn">CHECKOUT</a>
+<!-- 				<button class="btn">CHECKOUT</button> -->
 			</div>
 		</div>
 
