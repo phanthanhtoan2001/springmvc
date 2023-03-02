@@ -71,14 +71,14 @@
 						<li
 							class="list-group-item d-flex justify-content-between lh-condensed">
 							<div>
-								<h6 class="my-0">${item.flower.name } x${item.quantity}</h6>
+								<h6 class="my-0">${item.flower.name }x${item.quantity}</h6>
 								<small class="text-muted">Brief description</small>
 							</div> <span class="text-muted">&euro; ${item.flower.price * item.quantity }</span>
 						</li>
-					</c:forEach>				
+					</c:forEach>
 					<li class="list-group-item d-flex justify-content-between bg-light">
 						<div class="text-success">
-						<c:set var="discount" value="0"></c:set>
+							<c:set var="discount" value="0"></c:set>
 							<h6 class="my-0">Promo code</h6>
 							<small>EXAMPLECODE</small>
 						</div> <span class="text-success">&euro; -${discount }</span>
@@ -99,11 +99,13 @@
 			<div class="col-md-8 order-md-1">
 				<h4 class="mb-3">Billing address</h4>
 				<form class="needs-validation" novalidate>
+					<c:out value="${sessionScope.loginsession}"/>
+					<c:set var="items" value="${sessionScope.loginsession }"></c:set>
 					<div class="row">
 						<div class="col-md-6 mb-3">
 							<label for="fullname">Full name</label> <input type="text"
-								class="form-control" id="firstName" placeholder="Nguyen Van A" value=""
-								required>
+								class="form-control" id="firstName" placeholder="Nguyen Van A"
+								value="${items.name}" required>
 							<div class="invalid-feedback">Valid name is required.</div>
 						</div>
 						<!--           <div class="col-md-6 mb-3"> -->
@@ -130,7 +132,7 @@
 
 					<div class="mb-3">
 						<label for="email">Email </label> <input type="email"
-							class="form-control" id="email" placeholder="you@example.com"
+							class="form-control" id="email" placeholder="you@example.com" value="${items.email }"
 							required>
 						<div class="invalid-feedback">Please enter a valid email
 							address for shipping updates.</div>
@@ -179,18 +181,18 @@
 					<!--             </div> -->
 					<!--           </div> -->
 					<!--         </div> -->
-<!-- 					<hr class="mb-4"> -->
-<!-- 					<div class="custom-control custom-checkbox"> -->
-<!-- 						<input type="checkbox" class="custom-control-input" -->
-<!-- 							id="same-address"> <label class="custom-control-label" -->
-<!-- 							for="same-address">Shipping address is the same as my -->
-<!-- 							billing address</label> -->
-<!-- 					</div> -->
-<!-- 					<div class="custom-control custom-checkbox"> -->
-<!-- 						<input type="checkbox" class="custom-control-input" id="save-info"> -->
-<!-- 						<label class="custom-control-label" for="save-info">Save -->
-<!-- 							this information for next time</label> -->
-<!-- 					</div> -->
+					<!-- 					<hr class="mb-4"> -->
+					<!-- 					<div class="custom-control custom-checkbox"> -->
+					<!-- 						<input type="checkbox" class="custom-control-input" -->
+					<!-- 							id="same-address"> <label class="custom-control-label" -->
+					<!-- 							for="same-address">Shipping address is the same as my -->
+					<!-- 							billing address</label> -->
+					<!-- 					</div> -->
+					<!-- 					<div class="custom-control custom-checkbox"> -->
+					<!-- 						<input type="checkbox" class="custom-control-input" id="save-info"> -->
+					<!-- 						<label class="custom-control-label" for="save-info">Save -->
+					<!-- 							this information for next time</label> -->
+					<!-- 					</div> -->
 					<hr class="mb-4">
 
 					<h4 class="mb-3">Payment</h4>
