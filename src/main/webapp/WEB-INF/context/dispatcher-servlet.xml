@@ -21,15 +21,13 @@
               http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:component-scan
-<<<<<<< HEAD
+
 		base-package="com.laptrinhjavaweb.controller" />
 
-=======
-	base-package="com.laptrinhjavaweb.controller" />
+
 	<mvc:resources mapping="/resources/**"
 		location="/resources/bootstrap/" cache-period="31556926" />
 	<mvc:annotation-driven />
->>>>>>> Sinh
 
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/template/**"
@@ -52,10 +50,6 @@
 	</bean>
 
 
-<<<<<<< HEAD
 	<!-- -->
 </beans>
-=======
 
-</beans>
->>>>>>> Sinh
