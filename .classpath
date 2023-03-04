@@ -58,7 +58,5 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-=======
->>>>>>> Sinh
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

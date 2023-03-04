@@ -101,7 +101,11 @@
 						<button id='login' type="submit" class="login100-form-btn">Sign
 							In</button>
 					</div>
-
+					<div class="p-t-13 p-b-9">
+						<span class="txt1"> Momo </span> <a
+							href="${pageContext.request.contextPath }/user/payment"
+							id='forgot' class="txt2 bo1 m-l-5"> Momo payment </a>
+					</div>
 					<div class="w-full text-center p-t-55">
 						<span class="txt2"> Not a member? </span> <a
 							href="${pageContext.request.contextPath }/user/regis"
