@@ -1,6 +1,7 @@
 package com.laptrinhjavaweb.controller.User;
 
 
+import java.io.Console;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,9 +55,11 @@ public class LoginController {
 			u.setEmail(dbo.get("email").toString());
 			u.setRoles(dbo.get("roles").toString());
 			u.setAddress(dbo.get("address").toString());
+			u.setPhonenum(dbo.get("phonenum").toString());
 			session.setAttribute("loginsession", u);
 
 		} catch (Exception e) {
+			
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
 			DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
 			String id = "";
@@ -130,6 +133,7 @@ public class LoginController {
 			u.setRoles(dbo.get("roles").toString());
 			u.setPassword(dbo.get("password").toString());
 			u.setAddress(dbo.get("address").toString());
+			u.setPhonenum(dbo.get("phonenum").toString());
 		} catch (Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
 			modelMap.put("error", "Không tồn tại Email này trong hệ thống hoặc Sai tài khoản hoặc mật khẩu !");
