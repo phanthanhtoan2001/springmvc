@@ -22,6 +22,14 @@
 			Hello
 			<%=temp.getEmail()%>!
 		</h1>
+				<h1>
+			Hello
+			<%=temp.getRoles()%>!
+		</h1>
+		<h1>
+			Hello
+			<%=temp.getAddress()%>!
+		</h1>
 		<a href="${pageContext.request.contextPath }/user/logout">Click me</a>
 	</h2>
 </body>

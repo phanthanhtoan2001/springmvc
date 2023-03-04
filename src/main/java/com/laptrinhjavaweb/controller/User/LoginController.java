@@ -52,6 +52,7 @@ public class LoginController {
 			u.setName(dbo.get("name").toString());
 			u.setEmail(dbo.get("email").toString());
 			u.setRoles(dbo.get("roles").toString());
+			u.setAddress(dbo.get("address").toString());
 			session.setAttribute("loginsession", u);
 
 		} catch (Exception e) {
