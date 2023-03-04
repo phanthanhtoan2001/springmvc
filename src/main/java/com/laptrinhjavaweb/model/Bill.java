@@ -26,6 +26,9 @@ public class Bill {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	public Bill() {
+		super();
+	}
 	public Bill(String billid, String method, String note, Date date) {
 		super();
 		this.billid = billid;
@@ -34,9 +37,7 @@ public class Bill {
 		this.date = date;
 	}
 	
-	public Bill() {
-		super();
-	}
+
 	private String billid, method,note;
 	 private Date date; 
 	 
