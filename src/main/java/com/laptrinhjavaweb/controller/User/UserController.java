@@ -96,8 +96,8 @@ public class UserController {
 
 		String partnerClientId = "partnerClientId";
 		String orderInfo = "Pay Withasdasdasd MoMo";
-		String returnURL = "https://4c8d-2001-ee0-5045-50-58c1-b2ec-3123-740d.ap.ngrok.io/java-web/user/ConfirmPaymentClient";
-		String notifyURL = "https://4c8d-2001-ee0-5045-50-58c1-b2ec-3123-740d.ap.ngrok.io/java-web/user/ConfirmPaymentClient";
+		String returnURL = "https://localhost:8088/java-web/user/ConfirmPaymentClient";
+		String notifyURL = "https://localhost:8088/java-web/user/ConfirmPaymentClient";
 		String callbackToken = "callbackToken";
 		String token = "";
 
