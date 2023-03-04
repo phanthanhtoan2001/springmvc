@@ -1,6 +1,5 @@
 package com.laptrinhjavaweb.controller.User;
 
-
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,10 +53,11 @@ public class LoginController {
 			u.setEmail(dbo.get("email").toString());
 			u.setRoles(dbo.get("roles").toString());
 			u.setAddress(dbo.get("address").toString());
+			u.setPhonenum(dbo.get("phonenum").toString());
 			session.setAttribute("loginsession", u);
 
 		} catch (Exception e) {
-			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
+
 			DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
 			String id = "";
 			DBCursor cursor = colls.find();
@@ -73,16 +73,20 @@ public class LoginController {
 			doc.put("password", "$!#@^#$%^#$%#$%DoBaN^&%Bi@tDuoc@P^S$D0");
 			doc.put("roles", "customer");
 			doc.put("email", googleu.getEmail());
+			doc.put("address", "Cap nhat");
+			doc.put("phonenum", "0123456789");
 			User tempus = new User();
 			tempus.setEmail(googleu.getEmail());
 			tempus.setId(Integer.toString(temp));
 			tempus.setName(googleu.getEmail());
 			tempus.setRoles("customercustomer");
-
+			tempus.setAddress("Cap nhat");
+			tempus.setPhonenum("0123456789");
 			// Save a new user to the mongo collection.
 			colls.insert(doc);
 			session.setAttribute("loginsession", tempus);
 			return "loginsucces";
+
 		}
 
 		return "loginsucces";
@@ -130,6 +134,7 @@ public class LoginController {
 			u.setRoles(dbo.get("roles").toString());
 			u.setPassword(dbo.get("password").toString());
 			u.setAddress(dbo.get("address").toString());
+			u.setPhonenum(dbo.get("phonenum").toString());
 		} catch (Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
 			modelMap.put("error", "Không tồn tại Email này trong hệ thống hoặc Sai tài khoản hoặc mật khẩu !");
@@ -170,6 +175,9 @@ public class LoginController {
 			u.setName(dbo.get("name").toString());
 			u.setEmail(dbo.get("email").toString());
 			u.setRoles(dbo.get("roles").toString());
+			u.setPassword(dbo.get("password").toString());
+			u.setAddress(dbo.get("address").toString());
+			u.setPhonenum(dbo.get("phonenum").toString());
 			// get id add
 			modelMap.put("error", "Đã tồn tại email hoặc tài khoản này trong hệ thống!");
 		} catch (Exception e) {
@@ -190,6 +198,8 @@ public class LoginController {
 				doc.put("password", password.toString());
 				doc.put("roles", "customer");
 				doc.put("email", email.toString());
+				doc.put("address", "Cap nhat");
+				doc.put("phonenum", "0123456789");
 				// Save a new user to the mongo collection.
 				colls.insert(doc);
 				return "login";
@@ -223,20 +233,24 @@ public class LoginController {
 			u.setPassword(dbo.get("password").toString());
 			u.setRoles(dbo.get("roles").toString());
 			u.setEmail(dbo.get("email").toString());
-			
+			u.setPassword(dbo.get("password").toString());
+			u.setAddress(dbo.get("address").toString());
+			u.setPhonenum(dbo.get("phonenum").toString());
+
 			if (email.equalsIgnoreCase(u.getEmail())) {
 
 				// xu ly email
 				String pass = generatePassword(12);
 				// save
-				
+
 				BasicDBObject edited = new BasicDBObject();
-				edited.put("id",u.getId());
-				edited.put("name",u.getName());
+				edited.put("id", u.getId());
+				edited.put("name", u.getName());
 				edited.put("password", pass);
-				edited.put("roles",u.getRoles());
-				edited.put("email",u.getEmail());
-			
+				edited.put("roles", u.getRoles());
+				edited.put("email", u.getEmail());
+				edited.put("address", u.getAddress());
+				edited.put("phonenum", u.getPhonenum());
 				coll.update(dbo, edited);
 				//
 				AbstractApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
