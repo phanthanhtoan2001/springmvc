@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Login V5</title>
+<title>Đăng ký</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -59,7 +59,7 @@
 				<form class="login100-form validate-form flex-sb flex-w"
 					method="post"
 					action="${pageContext.request.contextPath }/user/regis">
-					<span class="login100-form-title p-b-53"> Sign Up </span>
+					<span class="login100-form-title p-b-53"> Đăng ký </span>
 
 					<div class="p-t-31 p-b-9">
 						<span class="txt1"> Email </span>
@@ -73,7 +73,7 @@
 
 
 					<div class="p-t-13 p-b-9">
-						<span class="txt1"> Password </span>
+						<span class="txt1"> Mật khẩu </span>
 					</div>
 					<div class="wrap-input100 validate-input"
 						data-validate="Password is required">
@@ -82,7 +82,7 @@
 					</div>
 
 					<div class="p-t-31 p-b-9">
-						<span class="txt1"> Username </span>
+						<span class="txt1"> Tên tài khoản </span>
 					</div>
 					<div class="wrap-input100 validate-input"
 						data-validate="Username is required">
@@ -95,14 +95,13 @@
 							${error} </span>
 					</div>
 					<div class="container-login100-form-btn m-t-17">
-						<button id='login' type="submit" class="login100-form-btn">Sign
-							Up</button>
+						<button id='login' type="submit" class="login100-form-btn">Đăng ký</button>
 					</div>
 
 					<div class="w-full text-center p-t-55">
 						<span class="txt2"> Quay </span> <a
 							href="${pageContext.request.contextPath }/user/login"
-							class="txt2 bo1"> trở về </a>
+							class="txt2 bo1"> Trở về </a>
 					</div>
 				</form>
 			</div>

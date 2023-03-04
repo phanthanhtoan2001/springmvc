@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Login V5</title>
+<title>Login FlowerShop</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -59,7 +59,7 @@
 				<form class="login100-form validate-form flex-sb flex-w"
 					method="post"
 					action="${pageContext.request.contextPath }/user/login">
-					<span class="login100-form-title p-b-53"> Sign In With </span>
+					<span class="login100-form-title p-b-53"> Đăng nhập với </span>
 
 					<!-- <a href="#" class="btn-face m-b-20">
 						<i class="fa fa-facebook-official"></i>
@@ -84,9 +84,9 @@
 					</div>
 
 					<div class="p-t-13 p-b-9">
-						<span class="txt1"> Password </span> <a
+						<span class="txt1"> Quên </span> <a
 							href="${pageContext.request.contextPath }/user/forgot"
-							id='forgot' class="txt2 bo1 m-l-5"> Forgot? </a>
+							id='forgot' class="txt2 bo1 m-l-5"> mật khẩu? </a>
 					</div>
 					<div class="wrap-input100 validate-input"
 						data-validate="Password is required">
@@ -98,18 +98,14 @@
 							${error} </span>
 					</div>
 					<div class="container-login100-form-btn m-t-17">
-						<button id='login' type="submit" class="login100-form-btn">Sign
-							In</button>
+						<button id='login' type="submit" class="login100-form-btn">Đăng
+							nhập</button>
 					</div>
-					<div class="p-t-13 p-b-9">
-						<span class="txt1"> Momo </span> <a
-							href="${pageContext.request.contextPath }/user/payment"
-							id='forgot' class="txt2 bo1 m-l-5"> Momo payment </a>
-					</div>
+
 					<div class="w-full text-center p-t-55">
-						<span class="txt2"> Not a member? </span> <a
+						<span class="txt2"> Đăng </span> <a
 							href="${pageContext.request.contextPath }/user/regis"
-							class="txt2 bo1"> Sign up now </a>
+							class="txt2 bo1">  ký ngay </a>
 					</div>
 				</form>
 			</div>

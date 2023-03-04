@@ -20,7 +20,7 @@
 	href="https://getbootstrap.com/docs/4.3/examples/checkout/">
 
 <!-- <!-- Bootstrap core CSS -->
--->
+
 <!-- <link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" -->
 <!-- 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" -->
 <!-- 	crossorigin="anonymous"> -->
@@ -101,7 +101,7 @@
 				<h4 class="mb-3">Billing address</h4>
 				<form class="needs-validation" novalidate>
 					<c:set var="items" value="${sessionScope.loginsession }"></c:set>
-					
+
 					<div class="row">
 						<div class="col-md-6 mb-3">
 							<label for="fullname">Full name</label> <input type="text"
@@ -198,10 +198,13 @@
 
 					<h4 class="mb-3">Payment</h4>
 
-					<a href="${pageContext.request.contextPath }/payment/checkout" class="btn btn-primary btn-lg btn-block">Checkout with Cash on delivery</a>
-					<a href="${pageContext.request.contextPath }/payment/checkout" class="btn btn-primary btn-lg btn-block">Checkout with momo</a>
-<%-- 					<button class="btn btn-primary btn-lg btn-block" type="submit"><a href="${pageContext.request.contextPath }/payment/checkout">Continue --%>
-<!-- 						to checkout</a></button> -->
+					<a href="${pageContext.request.contextPath }/payment/checkout"
+						class="btn btn-primary btn-lg btn-block">Checkout with Cash on
+						delivery</a> <a
+						href="${pageContext.request.contextPath }/payment/paymentmomo"
+						class="btn btn-primary btn-lg btn-block">Checkout with momo</a>
+					<%-- 					<button class="btn btn-primary btn-lg btn-block" type="submit"><a href="${pageContext.request.contextPath }/payment/checkout">Continue --%>
+					<!-- 						to checkout</a></button> -->
 				</form>
 			</div>
 		</div>
