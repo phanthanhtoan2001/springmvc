@@ -19,10 +19,11 @@
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/4.3/examples/checkout/">
 
-<!-- Bootstrap core CSS -->
-<link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+<!-- <!-- Bootstrap core CSS -->
+-->
+<!-- <link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" -->
+<!-- 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" -->
+<!-- 	crossorigin="anonymous"> -->
 
 
 <style>
@@ -99,8 +100,8 @@
 			<div class="col-md-8 order-md-1">
 				<h4 class="mb-3">Billing address</h4>
 				<form class="needs-validation" novalidate>
-					<c:out value="${sessionScope.loginsession}"/>
 					<c:set var="items" value="${sessionScope.loginsession }"></c:set>
+					
 					<div class="row">
 						<div class="col-md-6 mb-3">
 							<label for="fullname">Full name</label> <input type="text"
@@ -124,7 +125,7 @@
 							<!--               <span class="input-group-text">@</span> -->
 							<!--             </div> -->
 							<input type="text" class="form-control" id="PhoneNum"
-								placeholder="01235456789" required>
+								placeholder="01235456789" value="${items.phonenum}" required>
 							<div class="invalid-feedback" style="width: 100%;">Your
 								Phone Number is required.</div>
 						</div>
@@ -132,8 +133,8 @@
 
 					<div class="mb-3">
 						<label for="email">Email </label> <input type="email"
-							class="form-control" id="email" placeholder="you@example.com" value="${items.email }"
-							required>
+							class="form-control" id="email" placeholder="you@example.com"
+							value="${items.email }" required>
 						<div class="invalid-feedback">Please enter a valid email
 							address for shipping updates.</div>
 					</div>
@@ -141,7 +142,7 @@
 					<div class="mb-3">
 						<label for="address">Address</label> <input type="text"
 							class="form-control" id="address" placeholder="1234 Main St"
-							required>
+							value="${items.address}" required>
 						<div class="invalid-feedback">Please enter your shipping
 							address.</div>
 					</div>
@@ -197,60 +198,10 @@
 
 					<h4 class="mb-3">Payment</h4>
 
-					<div class="d-block my-3">
-						<div class="custom-control custom-radio">
-							<input id="credit" name="paymentMethod" type="radio"
-								class="custom-control-input" checked required> <label
-								class="custom-control-label" for="credit">Credit card</label>
-						</div>
-						<div class="custom-control custom-radio">
-							<input id="debit" name="paymentMethod" type="radio"
-								class="custom-control-input" required> <label
-								class="custom-control-label" for="debit">Cash on
-								delivery</label>
-						</div>
-						<div class="custom-control custom-radio">
-							<input id="paypal" name="paymentMethod" type="radio"
-								class="custom-control-input" required> <label
-								class="custom-control-label" for="paypal">VNPay</label>
-						</div>
-					</div>
-					<!--         <div class="row"> -->
-					<!--           <div class="col-md-6 mb-3"> -->
-					<!--             <label for="cc-name">Name on card</label> -->
-					<!--             <input type="text" class="form-control" id="cc-name" placeholder="" required> -->
-					<!--             <small class="text-muted">Full name as displayed on card</small> -->
-					<!--             <div class="invalid-feedback"> -->
-					<!--               Name on card is required -->
-					<!--             </div> -->
-					<!--           </div> -->
-					<!--           <div class="col-md-6 mb-3"> -->
-					<!--             <label for="cc-number">Credit card number</label> -->
-					<!--             <input type="text" class="form-control" id="cc-number" placeholder="" required> -->
-					<!--             <div class="invalid-feedback"> -->
-					<!--               Credit card number is required -->
-					<!--             </div> -->
-					<!--           </div> -->
-					<!--         </div> -->
-					<!--         <div class="row"> -->
-					<!--           <div class="col-md-3 mb-3"> -->
-					<!--             <label for="cc-expiration">Expiration</label> -->
-					<!--             <input type="text" class="form-control" id="cc-expiration" placeholder="" required> -->
-					<!--             <div class="invalid-feedback"> -->
-					<!--               Expiration date required -->
-					<!--             </div> -->
-					<!--           </div> -->
-					<!--           <div class="col-md-3 mb-3"> -->
-					<!--             <label for="cc-cvv">CVV</label> -->
-					<!--             <input type="text" class="form-control" id="cc-cvv" placeholder="" required> -->
-					<!--             <div class="invalid-feedback"> -->
-					<!--               Security code required -->
-					<!--             </div> -->
-					<!--           </div> -->
-					<!--         </div> -->
-					<hr class="mb-4">
-					<button class="btn btn-primary btn-lg btn-block" type="submit">Continue
-						to checkout</button>
+					<a href="${pageContext.request.contextPath }/payment/checkout" class="btn btn-primary btn-lg btn-block">Checkout with Cash on delivery</a>
+					<a href="${pageContext.request.contextPath }/payment/checkout" class="btn btn-primary btn-lg btn-block">Checkout with momo</a>
+<%-- 					<button class="btn btn-primary btn-lg btn-block" type="submit"><a href="${pageContext.request.contextPath }/payment/checkout">Continue --%>
+<!-- 						to checkout</a></button> -->
 				</form>
 			</div>
 		</div>

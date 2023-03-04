@@ -33,6 +33,7 @@ public class UserService {
             User user = new User();
             user.setId(dbObject.get("id").toString());
             user.setName(dbObject.get("name").toString());
+            user.setAddress(dbObject.get("address").toString());
 
             // Adding the user details to the list.
             user_list.add(user);
@@ -53,6 +54,7 @@ public class UserService {
             BasicDBObject doc = new BasicDBObject();
             doc.put("id", String.valueOf(ran.nextInt(100)));
             doc.put("name", user.getName());
+            doc.put("address", user.getAddress());
 
             // Save a new user to the mongo collection.
             coll.insert(doc);

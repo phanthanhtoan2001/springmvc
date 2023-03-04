@@ -127,7 +127,7 @@ public class LoginController {
 			u.setEmail(dbo.get("email").toString());
 			u.setRoles(dbo.get("roles").toString());
 			u.setPassword(dbo.get("password").toString());
-
+			u.setAddress(dbo.get("address").toString());
 		} catch (Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
 			modelMap.put("error", "Không tồn tại Email này trong hệ thống hoặc Sai tài khoản hoặc mật khẩu !");
