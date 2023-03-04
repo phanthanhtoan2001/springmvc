@@ -1,19 +1,34 @@
 package com.laptrinhjavaweb.controller.User;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.laptrinhjavaweb.model.User;
 import com.laptrinhjavaweb.model.UserService;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.laptrinhjavaweb.controller.User.mservice.enums.RequestType;
+import com.laptrinhjavaweb.controller.User.mservice.models.PaymentResponse;
+import com.laptrinhjavaweb.controller.User.mservice.processor.CreateOrderMoMo;
+import com.laptrinhjavaweb.controller.User.mservice.shared.utils.LogUtils;
+import com.laptrinhjavaweb.controller.User.mservice.Utils;
+import com.laptrinhjavaweb.controller.User.mservice.config.Environment;
 
 @Controller
 @RequestMapping("/user")
@@ -68,10 +83,60 @@ public class UserController {
 		return "redirect:list";
 	}
 
+//public String payment(Model model, @RequestBody WeddingPartyOrders order, HttpSession session) throws Exception {
+	// @PostMapping("/payment")
+	@RequestMapping(value = "/payment", method = RequestMethod.GET)
+	public String payment(Model model, HttpSession session,HttpServletRequest request) throws Exception {
+		//
+		LogUtils.init();
+		String requestId = String.valueOf(System.currentTimeMillis());
+		String orderId = String.valueOf(System.currentTimeMillis());
+		Long transId = 2L;
+		long amount = 2000;
+
+		String partnerClientId = "partnerClientId";
+		String orderInfo = "Pay Withasdasdasd MoMo";
+		String returnURL = "https://localhost:8088/java-web/user/ConfirmPaymentClient";
+		String notifyURL = "https://localhost:8088/java-web/user/ConfirmPaymentClient";
+		String callbackToken = "callbackToken";
+		String token = "";
+
+		Environment environment = Environment.selectEnv("dev");
+		PaymentResponse captureWalletMoMoResponse = CreateOrderMoMo.process(environment, orderId, requestId,
+				Long.toString(amount), orderInfo, returnURL, notifyURL, "", RequestType.CAPTURE_WALLET, Boolean.TRUE);
+		return "redirect:" + captureWalletMoMoResponse.getPayUrl();
+
+	}
+	@RequestMapping(value = "/ConfirmPaymentClient", method = RequestMethod.GET)
+	public String ConfirmPaymentClient() {
+		
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n");
+		
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n")	;
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n");	
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n")	;
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n")	;
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n")	;
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n");
+		return "welcome";
+	}
+	@RequestMapping(value = "/ConfirmPaymentClient", method = RequestMethod.POST)
+	public String ConfirmPaymentClient1() {
+		
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n");
+		
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n")	;
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n");	
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n")	;
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n")	;
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n")	;
+		System.out.print("hahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaahahahahaa\n");
+		return "welcome";
+	}
 	// test login
 	@RequestMapping(value = "/loginsucces", method = RequestMethod.GET)
 	public String loginsucces() {
-		
+
 		return "loginsucces";
 	}
 }
