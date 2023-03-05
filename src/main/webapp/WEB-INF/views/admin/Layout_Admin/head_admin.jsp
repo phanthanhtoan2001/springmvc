@@ -94,10 +94,7 @@
 					data-widget="fullscreen" href="#" role="button"> <i
 						class="fas fa-expand-arrows-alt"></i>
 				</a></li>
-				<li class="nav-item"><a class="nav-link"
-					data-widget="control-sidebar" data-controlsidebar-slide="true"
-					href="#" role="button"> <i class="fas fa-th-large"></i>
-				</a></li>
+				
 			</ul>
 		</nav>
 		<!-- /.navbar -->
@@ -151,8 +148,8 @@
 						<!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-						<li class="nav-item menu-open"><a href="#"
-							class="nav-link active"> <i
+						<li class="nav-item"><a href="${pageContext.request.contextPath }/admin/welcome"
+							class="nav-link " style="background-color:"none";"> <i
 								class="nav-icon fas fa-tachometer-alt"></i>
 								<p>Trang chủ</p>
 						</a></li>

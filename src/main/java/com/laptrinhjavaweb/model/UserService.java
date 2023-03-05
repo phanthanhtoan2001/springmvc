@@ -22,7 +22,7 @@ public class UserService {
 
     // Fetch all users from the mongo database.
     public static List getAll() {
-        List user_list = new ArrayList();
+    	List<User> user_list =(List<User>) new ArrayList();
         DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
         // Fetching cursor object for iterating on the database records.
