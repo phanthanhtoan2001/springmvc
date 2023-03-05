@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
@@ -13,7 +13,7 @@
 <script src="<c:url value="/resources/js/bootstrap.bundle.js" />"></script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Cart Page</title>
+<title>Giỏ hàng</title>
 </head>
 <body>
 	<div class="card">
@@ -23,7 +23,7 @@
 					<div class="row">
 						<div class="col">
 							<h4>
-								<b>Shopping Cart</b>
+								<b>Giỏ hàng</b>
 							</h4>
 						</div>
 						<c:set var="count" value="${sessionScope.cart.size()}"></c:set>
@@ -54,7 +54,7 @@
 							<div class="col">
 								&euro; ${item.flower.price * item.quantity } <span><a
 									href="${pageContext.request.contextPath }/cart/remove/${item.flower.flowerid }"
-									onclick="return confirm('Are you sure?')">Remove</a></span>
+									onclick="return confirm('Are you sure?')">Xóa</a></span>
 							</div>
 						</div>
 					</div>
@@ -95,13 +95,13 @@
 				<!-- 				</div> -->
 				<div class="back-to-shop">
 					<a href="${pageContext.request.contextPath }/flower">&leftarrow;</a><span
-						class="text-muted">continue shopping</span>
+						class="text-muted">Tiếp tục mua sắm</span>
 				</div>
 			</div>
 			<div class="col-md-4 summary">
 				<div>
 					<h5>
-						<b>Summary</b>
+						<b>Chi tiết</b>
 					</h5>
 				</div>
 				<hr>
@@ -110,18 +110,18 @@
 					<div class="col text-right">&euro; ${total }</div>
 				</div>
 				<form>
-					<p>SHIPPING</p>
+					<p>Phí ship</p>
 					<select><option class="text-muted">Standard-Delivery-
 							&euro;5.00</option></select>
-					<p>GIVE CODE</p>
+					<p>Mã giảm giá</p>
 					<input id="code" placeholder="Enter your code">
 				</form>
 				<div class="row"
 					style="border-top: 1px solid rgba(0, 0, 0, .1); padding: 2vh 0;">
-					<div class="col">TOTAL PRICE</div>
+					<div class="col">Tổng</div>
 					<div class="col text-right">&euro; ${total }</div>
 				</div>
-				<a href="${pageContext.request.contextPath }/payment" class="btn">CHECKOUT</a>
+				<a href="${pageContext.request.contextPath }/payment" class="btn">THANH TOÁN</a>
 <!-- 				<button class="btn">CHECKOUT</button> -->
 			</div>
 		</div>

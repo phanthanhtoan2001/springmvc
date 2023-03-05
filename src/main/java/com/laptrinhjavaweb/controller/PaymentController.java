@@ -32,9 +32,9 @@ import com.laptrinhjavaweb.model.User;
 @RequestMapping("/payment")
 public class PaymentController {
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(ModelMap modelMap) {
-		List flower_list = FlowerService.getAll();
-		modelMap.put("products", flower_list);
+	public String index(HttpSession session) {
+		if(session.getAttribute("loginsession") == null)
+			return "login";
 		return "payment/payment";
 	}
 
@@ -64,10 +64,29 @@ public class PaymentController {
 
 
 	@RequestMapping(value = "/confirmmomo", method = RequestMethod.GET)
-	public String ConfirmPaymentClient12() {
-		//save bill
-		
-		//
+	public String ConfirmPaymentClient12(HttpSession session) {
+		String orderid = "";
+		orderid = OrderService.generatemaxid();
+		List<Item> cart = (List<Item>) session.getAttribute("cart");
+		User a = (User) session.getAttribute("loginsession");
+		for (Item item : cart) {
+			Order order = new Order();
+			order.setFlowerid(item.getFlower().getFlowerid());
+			order.setOrderid(orderid);
+			order.setQuantity(item.getQuantity());
+			order.setUserid(a.getId());
+			order.setShipaddress(a.getAddress());	
+			OrderService.add(order);
+		}
+		Bill bill = new Bill();
+		bill.setBillid(BillService.generatemaxid());
+	    java.util.Date date = new java.util.Date();   
+		bill.setDate(date);
+		bill.setMethod("Thanh toán tiền mặt");
+		bill.setNote("");
+		bill.setOrderid(orderid);
+		BillService.add(bill);
+
 		return "payment/checkout";
 	}
 
