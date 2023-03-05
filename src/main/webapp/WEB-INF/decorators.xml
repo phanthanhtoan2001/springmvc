@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<decorators defaultdir="/decorators">
+<decorators defaultdir="/WEB-INF/views/admin/Layout_Admin">
 
 	
-    <decorator name="trang-chu" page="login.jsp">
-       <pattern>/trang-chu</pattern>
+    <decorator name="admin" page="index_admin.jsp">
+       <pattern>/welcome</pattern>
     </decorator>
-    
-    <decorator name="home" page="admin.jsp">
+    <decorator name="admin" page="index_customer.jsp">
+       <pattern>/customer</pattern>
+    </decorator>
+   <!--  <decorator name="home" page="admin.jsp">
        <pattern>/home</pattern>
-    </decorator>
+    </decorator> -->
 
 </decorators>
