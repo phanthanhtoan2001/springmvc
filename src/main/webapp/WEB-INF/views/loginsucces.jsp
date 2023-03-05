@@ -30,6 +30,11 @@
 			Hello
 			<%=temp.getAddress()%>!
 		</h1>
+		<h1>
+			Hello
+			<%=temp.getPhonenum()%>!
+		</h1>
+		
 		<a href="${pageContext.request.contextPath }/user/logout">Click me</a>
 	</h2>
 </body>
