@@ -78,15 +78,17 @@ public class PaymentController {
 		String email = request.getParameter("email");
 		String add1 = request.getParameter("address");
 		String add2 = request.getParameter("address2");
+		String orderid = "";
 		if(!add2.equals("")) {
 			add1 = add2;
 		}
+		orderid = OrderService.generatemaxid();
 		List<Item> cart = (List<Item>) session.getAttribute("cart");
 		User a = (User) session.getAttribute("loginsession");
 		for (Item item : cart) {
 			Order order = new Order();
 			order.setFlowerid(item.getFlower().getFlowerid());
-			order.setOrderid(OrderService.generatemaxid());
+			order.setOrderid(orderid);
 			order.setQuantity(item.getQuantity());
 			order.setUserid(a.getId());
 			order.setShipaddress(add1);	
@@ -98,6 +100,7 @@ public class PaymentController {
 		bill.setDate(date);
 		bill.setMethod("Thanh toán tiền mặt");
 		bill.setNote("");
+		bill.setOrderid(orderid);
 		BillService.add(bill);
 
 		return "payment/checkout";

@@ -36,7 +36,7 @@ public class OrderService {
 	            order.setFlowerid(dbObject.get("flowerid").toString());
 	            order.setUserid(dbObject.get("userid").toString());
 	            order.setShipaddress(dbObject.get("shipping_address").toString());
-	            order.setQuantity(((Long) dbObject.get("quantity")).intValue());
+	            order.setQuantity(((int) dbObject.get("quantity")));
 	 
 	            // Adding the user details to the list.
 	            order_list.add(order);
@@ -55,7 +55,7 @@ public class OrderService {
 	            // Create a new object and add the new user details to this object.
 	            BasicDBObject doc = new BasicDBObject();
 	            doc.put("orderid", order.getOrderid());
-	            doc.put("flowerid", order.getOrderid());
+	            doc.put("flowerid", order.getFlowerid());
 	            doc.put("userid", order.getUserid());
 	            doc.put("shipping_address", order.getShipaddress());
 	            doc.put("quantity", order.getQuantity());            
