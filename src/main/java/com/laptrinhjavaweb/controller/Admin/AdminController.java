@@ -150,21 +150,23 @@ public class AdminController {
 			String currentDate = dateFormat.format(today); // convert the date to a string in the desired format
 
 			DBCollection newordertoday = MongoFactory.getCollection("dbwebflower", "Bill");
-			DBObject where_query = new BasicDBObject();
+			
 
 			// Set the fromDate.
 			Date fromDate = dateFormat.parse(currentDate);
-			where_query.put("datebuy", new BasicDBObject("$gte", fromDate));
+			//where_query.put("datebuy", new BasicDBObject("$gte", fromDate));
 
 			// Set the toDate - 1 days after the fromDate.
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(fromDate);
 			cal.add(Calendar.DATE, 1);
 			Date toDate = cal.getTime();
-
-			where_query.put("datebuy", new BasicDBObject("$lte", toDate));
-
+			DBObject where_query = new BasicDBObject();
+			where_query.put("datebuy", new BasicDBObject("$gte", fromDate).append("$lte", toDate));
+			//where_query.put("datebuy", new BasicDBObject("$lte", toDate));
+			System.out.print(fromDate.toString()+"/"+toDate.toString());
 			Integer newordertodaycount = newordertoday.find(where_query).count();
+			//System.out.print("sads"+newordertodaycount);
 //////////////////////////////////////////////////////////////////////////
 			// todate
 			Calendar call = Calendar.getInstance();
@@ -230,9 +232,7 @@ public class AdminController {
 
 		} catch (Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
-			model.addAttribute("neworderbill_count", 0);
-			model.addAttribute("bill_count", 0);
-			model.addAttribute("customer_count", 0);
+			
 
 		}
 	}
