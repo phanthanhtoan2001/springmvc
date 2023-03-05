@@ -5,9 +5,6 @@ public class Order {
 	
 	private String orderid,flowerid,userid,shipaddress;
 	private int quantity;
-	
-	
-	
 	public Order() {
 		super();
 	}

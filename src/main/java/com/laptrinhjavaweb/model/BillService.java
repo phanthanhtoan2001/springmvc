@@ -3,11 +3,13 @@ package com.laptrinhjavaweb.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -16,7 +18,7 @@ import com.mongodb.DBObject;
 @Transactional
 public class BillService {
 
-	  static String db_name = "dbwebflower", db_collection = "Flowers";
+	  static String db_name = "dbwebflower", db_collection = "Bill";
 	   private static Logger log = Logger.getLogger(UserService.class);
 	
 	   public static List getAll() {
@@ -42,6 +44,39 @@ public class BillService {
 	        return bill_list;
 	    }
 	
+	   public static Boolean add(Bill bill) {
+	        boolean output = false;
+	        try {
+	            DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+
+	            // Create a new object and add the new user details to this object.
+	            BasicDBObject doc = new BasicDBObject();
+	            doc.put("billid", bill.getBillid());
+	            doc.put("payment_method", bill.getMethod());
+	            doc.put("orderid", bill.getOrderid());
+	            doc.put("note", bill.getNote());
+	            doc.put("datebuy", bill.getDate());            
+	            coll.insert(doc);
+	            output = true;
+	        } catch (Exception e) {
+	            output = false;
+	            log.error("An error occurred while saving a new user to the mongo database", e);
+	        }
+	        return output;
+	    }
+	   
+	   public static String generatemaxid() {
+			 List<Bill> bill_list = getAll();
+			int max =0;
+			for (Bill bill : bill_list) {
+				if (Integer.parseInt(bill.getOrderid()) > max) {
+					max = Integer.parseInt(bill.getOrderid());
+				}
+			}
+			max++;
+			return max+"";
+		}
+	   
 	   public static Bill find(String id) {
 			 List<Bill> bill_list = getAll();
 			

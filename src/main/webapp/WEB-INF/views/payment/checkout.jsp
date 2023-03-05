@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 Cảm ơn bạn đã mua hàng
+
+
 </body>
 </html>
