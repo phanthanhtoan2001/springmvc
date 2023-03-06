@@ -170,6 +170,7 @@
 										class="far fa-circle nav-icon"></i>
 										<p>Danh mục sản phẩm</p>
 								</a></li>
+								
 
 							</ul></li>
 						<li class="nav-item"><a href="#" class="nav-link"> <i
@@ -189,6 +190,26 @@
 										<span class="badge badge-info right"><c:out
 												value="${bill_count}" /></span>
 								</a></li>
+
+							</ul></li>
+							
+							<li class="nav-item"><a href="#" class="nav-link"> <i
+								class="nav-icon fas fa-th"></i>
+								<p>
+									Quản lý hóa đơn <i class="fas fa-angle-left right"></i> <span
+										class="badge badge-info right"></span>
+								</p>
+						</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="${pageContext.request.contextPath }/admin/bill" class="nav-link"> <i
+										class="far fa-circle nav-icon"></i>
+										<p>Hóa đơn</p>
+								</a></li>
+<!-- 								<li class="nav-item"><a href="#" class="nav-link"> <i -->
+<!-- 										class="far fa-circle nav-icon"></i> -->
+<!-- 										<p>Danh mục sản phẩm</p> -->
+<!-- 								</a></li> -->
+								
 
 							</ul></li>
 						<li class="nav-item"><a href="${pageContext.request.contextPath }/admin/customer" class="nav-link"> <i

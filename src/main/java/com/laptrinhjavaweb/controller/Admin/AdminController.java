@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.laptrinhjavaweb.controller.Admin.*;
+import com.laptrinhjavaweb.model.Bill;
 import com.laptrinhjavaweb.model.Flower;
 import com.laptrinhjavaweb.model.MongoFactory;
 import com.laptrinhjavaweb.model.User;
@@ -60,17 +61,17 @@ public class AdminController {
 				user.setAddress(dbObject.get("address").toString());
 				if (dbObject.get("roles").toString() == "customer") {
 					user.setRoles("Khách hàng");
-				} else
+
 					user.setRoles("Quản lý");
-				user.setRoles(dbObject.get("roles").toString());
-				user.setEmail(dbObject.get("email").toString());
-				user.setAddress(dbObject.get("address").toString());
-				user.setPhonenum(dbObject.get("phonenum").toString());
-				// Adding the user details to the list.
-				user_list.add(user);
+					user.setRoles(dbObject.get("roles").toString());
+					user.setEmail(dbObject.get("email").toString());
+					user.setAddress(dbObject.get("address").toString());
+					user.setPhonenum(dbObject.get("phonenum").toString());
+					// Adding the user details to the list.
+					user_list.add(user);
 
+				}
 			}
-
 			model.addAttribute("list_customer", user_list);
 		} catch (Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
@@ -116,14 +117,15 @@ public class AdminController {
 					user.setAddress(dbObject.get("address").toString());
 					if (dbObject.get("roles").toString() == "customer") {
 						user.setRoles("Khách hàng");
-					} else
+					} else {
 						user.setRoles("Quản lý");
-					user.setRoles(dbObject.get("roles").toString());
-					user.setEmail(dbObject.get("email").toString());
-					user.setAddress(dbObject.get("address").toString());
-					user.setPhonenum(dbObject.get("phonenum").toString());
-					// Adding the user details to the list.
-					user_list.add(user);
+						user.setRoles(dbObject.get("roles").toString());
+						user.setEmail(dbObject.get("email").toString());
+						user.setAddress(dbObject.get("address").toString());
+						user.setPhonenum(dbObject.get("phonenum").toString());
+						// Adding the user details to the list.
+						user_list.add(user);
+					}
 
 				}
 			}
@@ -134,6 +136,80 @@ public class AdminController {
 		}
 
 		return "/admin/Layout_Admin/cusomter_index";
+	}
+
+	@RequestMapping(value = "/bill", method = RequestMethod.GET)
+	public String getbill(Model model) {
+
+		try {
+			setModelLoad(model);
+			List bill_list = new ArrayList();
+			DBCollection coll = MongoFactory.getCollection("dbwebflower", "Bill");
+
+			DBCursor cursor = coll.find();
+			while (cursor.hasNext()) {
+				DBObject dbObject = cursor.next();
+
+				Bill bill = new Bill();
+				bill.setBillid(dbObject.get("billid").toString());
+				bill.setMethod(dbObject.get("payment_method").toString());
+				bill.setOrderid(dbObject.get("orderid").toString());
+				bill.setNote(dbObject.get("note").toString());
+				bill.setDate((Date) dbObject.get("datebuy"));
+				bill_list.add(bill);
+			}
+			model.addAttribute("list_bill", bill_list);
+		} catch (Exception e) {
+			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
+			model.addAttribute("list_bill", null);
+
+			return "login";
+		}
+		return "/admin/Layout_Admin/Bill_index";
+	}
+
+	@RequestMapping(value = "/bill", method = RequestMethod.POST)
+	public String getbill(Model model, @RequestParam("searchemail") String searchemail) {
+		setModelLoad(model);
+		List bill_list = new ArrayList();
+		try {
+			DBCollection coll = MongoFactory.getCollection("dbwebflower", "Bill");
+			DBObject where_query = new BasicDBObject();
+			where_query.put("email", Pattern.compile(searchemail.toString()));
+			DBCursor cursor = coll.find(where_query);
+			System.out.print(cursor);
+			if (cursor == null) {
+
+				Bill bill = new Bill();
+				bill.setBillid("Không tìm thấy");
+				bill.setMethod("Không tìm thấy");
+				bill.setNote("Không tìm thấy");
+				bill.setOrderid("Không tìm thấy");
+				bill.setDate(null);
+				// Adding the user details to the list.
+				bill_list.add(bill);
+
+			} else {
+				while (cursor.hasNext()) {
+					DBObject dbObject = cursor.next();
+
+					Bill bill = new Bill();
+					bill.setBillid(dbObject.get("billid").toString());
+					bill.setMethod(dbObject.get("payment_method").toString());
+					bill.setOrderid(dbObject.get("orderid").toString());
+					bill.setNote(dbObject.get("note").toString());
+					bill.setDate((Date) dbObject.get("datebuy"));
+					bill_list.add(bill);
+
+				}
+			}
+			model.addAttribute("list_bill", bill_list);
+		} catch (Exception e) {
+			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
+
+		}
+
+		return "/admin/Layout_Admin/Bill_index";
 	}
 
 	public void setModelLoad(Model model) {
@@ -150,11 +226,10 @@ public class AdminController {
 			String currentDate = dateFormat.format(today); // convert the date to a string in the desired format
 
 			DBCollection newordertoday = MongoFactory.getCollection("dbwebflower", "Bill");
-			
 
 			// Set the fromDate.
 			Date fromDate = dateFormat.parse(currentDate);
-			//where_query.put("datebuy", new BasicDBObject("$gte", fromDate));
+			// where_query.put("datebuy", new BasicDBObject("$gte", fromDate));
 
 			// Set the toDate - 1 days after the fromDate.
 			Calendar cal = Calendar.getInstance();
@@ -163,10 +238,10 @@ public class AdminController {
 			Date toDate = cal.getTime();
 			DBObject where_query = new BasicDBObject();
 			where_query.put("datebuy", new BasicDBObject("$gte", fromDate).append("$lte", toDate));
-			//where_query.put("datebuy", new BasicDBObject("$lte", toDate));
-			System.out.print(fromDate.toString()+"/"+toDate.toString());
+			// where_query.put("datebuy", new BasicDBObject("$lte", toDate));
+			System.out.print(fromDate.toString() + "/" + toDate.toString());
 			Integer newordertodaycount = newordertoday.find(where_query).count();
-			//System.out.print("sads"+newordertodaycount);
+			// System.out.print("sads"+newordertodaycount);
 //////////////////////////////////////////////////////////////////////////
 			// todate
 			Calendar call = Calendar.getInstance();
@@ -218,11 +293,10 @@ public class AdminController {
 //////////////////////////////////////////////////////////////////////////
 			DBCollection flowerCollection = MongoFactory.getCollection("dbwebflower", "Flowers");
 
-	
 			DBObject querys = new BasicDBObject("stock", new BasicDBObject("$lte", 10));
 			Integer countoutstock = flowerCollection.find(querys).count();
-			//System.out.print(count+"/");
-			
+			// System.out.print(count+"/");
+
 			//
 			model.addAttribute("countoutstock", countoutstock);
 			model.addAttribute("orderCountFirstWeekEndWeek_count", orderCountFirstWeekEndWeek);
@@ -232,7 +306,6 @@ public class AdminController {
 
 		} catch (Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
-			
 
 		}
 	}
