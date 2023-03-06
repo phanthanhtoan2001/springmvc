@@ -175,11 +175,9 @@ public class AdminController {
 		try {
 			DBCollection coll = MongoFactory.getCollection("dbwebflower", "Bill");
 			DBObject where_query = new BasicDBObject();
-			where_query.put("email", Pattern.compile(searchemail.toString()));
+			where_query.put("billid", Pattern.compile(searchemail.toString()));
 			DBCursor cursor = coll.find(where_query);
-			System.out.print(cursor);
 			if (cursor == null) {
-
 				Bill bill = new Bill();
 				bill.setBillid("Không tìm thấy");
 				bill.setMethod("Không tìm thấy");
@@ -188,7 +186,6 @@ public class AdminController {
 				bill.setDate(null);
 				// Adding the user details to the list.
 				bill_list.add(bill);
-
 			} else {
 				while (cursor.hasNext()) {
 					DBObject dbObject = cursor.next();
@@ -200,11 +197,13 @@ public class AdminController {
 					bill.setNote(dbObject.get("note").toString());
 					bill.setDate((Date) dbObject.get("datebuy"));
 					bill_list.add(bill);
-
 				}
 			}
+
 			model.addAttribute("list_bill", bill_list);
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
 
 		}

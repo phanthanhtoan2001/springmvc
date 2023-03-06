@@ -42,7 +42,7 @@
 							<!-- /.card-header -->
 							<div class="card-body">
 								<form method="post"
-									action="${pageContext.request.contextPath }/admin/customer">
+									action="${pageContext.request.contextPath }/admin/bill">
 									<table id="example2" class="table table-bordered table-hover">
 										<label
 											style="padding-left: 25%; display: flex; align-items: center">Search:<input

@@ -67,14 +67,19 @@ public class BillService {
 	   
 	   public static String generatemaxid() {
 			 List<Bill> bill_list = getAll();
+
+
 			int max =0;
 			for (Bill bill : bill_list) {
-				if (Integer.parseInt(bill.getOrderid()) > max) {
-					max = Integer.parseInt(bill.getOrderid());
+				String temp = bill.getBillid().substring(1);
+				
+				if (Integer.parseInt(temp) > max) {
+					max = Integer.parseInt(temp);
 				}
 			}
 			max++;
-			return max+"";
+			
+			return "B"+max;
 		}
 	   
 	   public static Bill find(String id) {
