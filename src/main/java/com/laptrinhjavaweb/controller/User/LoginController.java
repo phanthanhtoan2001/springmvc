@@ -33,7 +33,7 @@ public class LoginController {
 
 	static String db_name = "dbwebflower", db_collection = "User";
 	private static Logger log = Logger.getLogger(UserController.class);
-
+	DBCollection coll_user = MongoFactory.getCollection(db_name, db_collection);
 	@Resource(name = "userService")
 	private UserService userService;
 
@@ -42,12 +42,12 @@ public class LoginController {
 		User u = new User();
 		User googleu = (User) session.getAttribute("loginsession");
 		try {
-			DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+			
 
 			DBObject where_query = new BasicDBObject();
 			where_query.put("email", googleu.getEmail());
 
-			DBObject dbo = coll.findOne(where_query);
+			DBObject dbo = coll_user.findOne(where_query);
 			u.setId(dbo.get("id").toString());
 			u.setName(dbo.get("name").toString());
 			u.setEmail(dbo.get("email").toString());
@@ -66,9 +66,9 @@ public class LoginController {
 
 		} catch (Exception e) {
 
-			DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
+			
 			String id = "";
-			DBCursor cursor = colls.find();
+			DBCursor cursor = coll_user.find();
 			while (cursor.hasNext()) {
 				DBObject dbObject = cursor.next();
 				id = dbObject.get("id").toString();
@@ -91,7 +91,7 @@ public class LoginController {
 			tempus.setAddress("Cap nhat");
 			tempus.setPhonenum("0123456789");
 			// Save a new user to the mongo collection.
-			colls.insert(doc);
+			coll_user.insert(doc);
 			session.setAttribute("loginsession", tempus);
 			return "loginsucces";
 
@@ -133,13 +133,13 @@ public class LoginController {
 			HttpSession session, ModelMap modelMap) {
 		User u = new User();
 		try {
-			DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+			
 
 			DBObject where_query = new BasicDBObject();
 			where_query.put("password", password.toString());
 			where_query.put("email", username.toString());
 
-			DBObject dbo = coll.findOne(where_query);
+			DBObject dbo = coll_user.findOne(where_query);
 			u.setId(dbo.get("id").toString());
 			u.setName(dbo.get("name").toString());
 			u.setEmail(dbo.get("email").toString());
@@ -182,12 +182,12 @@ public class LoginController {
 		User u = new User();
 		// implement your own registration logic here...
 		try {
-			DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+			
 
 			DBObject where_query = new BasicDBObject();
 			where_query.put("email", email.toString());
 
-			DBObject dbo = coll.findOne(where_query);
+			DBObject dbo = coll_user.findOne(where_query);
 			u.setId(dbo.get("id").toString());
 			u.setName(dbo.get("name").toString());
 			u.setEmail(dbo.get("email").toString());
@@ -200,9 +200,9 @@ public class LoginController {
 		} catch (Exception e) {
 			if (!username.toString().isEmpty() || !password.toString().isEmpty() || !email.toString().isEmpty()) {
 
-				DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
+				
 				String id = "";
-				DBCursor cursor = colls.find();
+				DBCursor cursor = coll_user.find();
 				while (cursor.hasNext()) {
 					DBObject dbObject = cursor.next();
 					id = dbObject.get("id").toString();
@@ -218,7 +218,7 @@ public class LoginController {
 				doc.put("address", "Cap nhat");
 				doc.put("phonenum", "0123456789");
 				// Save a new user to the mongo collection.
-				colls.insert(doc);
+				coll_user.insert(doc);
 				return "login";
 			} else {
 				modelMap.put("error", "Vui lòng nhập đầy đủ thông tin!");

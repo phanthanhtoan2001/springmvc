@@ -386,7 +386,7 @@ public class AdminController {
 		    flower.setDescription(flowersdecrip);
 		    flower.setPrice(Integer.parseInt(flowerprice));
 		    flower.setUrl(image);
-		    flower.setStock(Integer.parseInt(flowersdecrip));
+		    flower.setStock(Integer.parseInt(flowerstock));
 		    FlowerService.add(flower);
 		}
 		
