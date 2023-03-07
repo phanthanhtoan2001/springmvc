@@ -58,7 +58,7 @@
 				<li class="nav-item"><a class="nav-link" data-widget="pushmenu"
 					href="#" role="button"><i class="fas fa-bars"></i></a></li>
 				<li class="nav-item d-none d-sm-inline-block"><a
-					href="${pageContext.request.contextPath }/java-web/admin/welcome"
+					href="${pageContext.request.contextPath }/admin/welcome"
 					class="nav-link">Trang chủ Admin</a></li>
 
 			</ul>
@@ -76,9 +76,9 @@
 								<input class="form-control form-control-navbar" type="search"
 									placeholder="Search" aria-label="Search">
 								<div class="input-group-append">
-									<button class="btn btn-navbar" type="submit">
+									<!-- <button class="btn btn-navbar" type="submit">
 										<i class="fas fa-search"></i>
-									</button>
+									</button> -->
 									<button class="btn btn-navbar" type="button"
 										data-widget="navbar-search">
 										<i class="fas fa-times"></i>
@@ -162,7 +162,7 @@
 								</p>
 						</a>
 							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="#" class="nav-link"> <i
+								<li class="nav-item"><a href="${pageContext.request.contextPath }/admin/flowercreate" class="nav-link"> <i
 										class="far fa-circle nav-icon"></i>
 										<p>Sản phẩm</p>
 								</a></li>

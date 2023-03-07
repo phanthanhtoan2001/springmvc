@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -20,8 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.laptrinhjavaweb.controller.Admin.*;
 import com.laptrinhjavaweb.model.Bill;
+import com.laptrinhjavaweb.model.BillService;
 import com.laptrinhjavaweb.model.Flower;
+import com.laptrinhjavaweb.model.FlowerService;
+import com.laptrinhjavaweb.model.Item;
 import com.laptrinhjavaweb.model.MongoFactory;
+import com.laptrinhjavaweb.model.Order;
+import com.laptrinhjavaweb.model.OrderService;
 import com.laptrinhjavaweb.model.User;
 import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
@@ -34,24 +41,38 @@ import com.mongodb.DBObject;
 public class AdminController {
 	private static Logger log = Logger.getLogger(AdminController.class);
 	static String db_name = "dbwebflower", db_collection = "Bill";
-
+	DBCollection coll_user = MongoFactory.getCollection("dbwebflower", "User");
+	DBCollection coll_bill = MongoFactory.getCollection("dbwebflower", "Bill");
+	DBCollection coll_order = MongoFactory.getCollection("dbwebflower", "Order");
+	DBCollection coll_flower = MongoFactory.getCollection("dbwebflower", "Flowers");
+	
 	// Displaying the initial users list.
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public String getPersons(Model model) {
-		setModelLoad(model);
-
-		return "/admin/Layout_Admin/index_admin";
-	}
+	public String getPersons(Model model, HttpSession session) {
+		
+		//return "/admin/Layout_Admin/index_admin";
+		//setModelLoad(model);
+		User temp = (User) session.getAttribute("loginsession");
+		if(temp != null) {
+			if( temp.getRoles().contains("admin"))
+			{
+				setModelLoad(model);
+				return "/admin/Layout_Admin/index_admin";
+			}else 
+			return "/login";
+		}else return "/login";
+	}	
+	
 
 	@RequestMapping(value = "/customer", method = RequestMethod.GET)
 	public String getcustomer(Model model) {
 
 		try {
-			setModelLoad(model);
+			
 			List user_list = new ArrayList();
-			DBCollection coll = MongoFactory.getCollection("dbwebflower", "User");
+		
 
-			DBCursor cursor = coll.find();
+			DBCursor cursor = coll_user.find();
 			while (cursor.hasNext()) {
 				DBObject dbObject = cursor.next();
 
@@ -61,7 +82,7 @@ public class AdminController {
 				user.setAddress(dbObject.get("address").toString());
 				if (dbObject.get("roles").toString() == "customer") {
 					user.setRoles("Khách hàng");
-				}else {
+				} else {
 					user.setRoles("Quản lý");
 					user.setRoles(dbObject.get("roles").toString());
 					user.setEmail(dbObject.get("email").toString());
@@ -85,14 +106,14 @@ public class AdminController {
 
 	@RequestMapping(value = "/customer", method = RequestMethod.POST)
 	public String getcustomer(Model model, @RequestParam("searchemail") String searchemail) {
-		setModelLoad(model);
+		
 		List user_list = new ArrayList();
 		try {
-			DBCollection coll = MongoFactory.getCollection("dbwebflower", "User");
+			
 			DBObject where_query = new BasicDBObject();
 			where_query.put("email", Pattern.compile(searchemail.toString()));
-			DBCursor cursor = coll.find(where_query);
-			System.out.print(cursor);
+			DBCursor cursor = coll_user.find(where_query);
+			//System.out.print(cursor);
 			if (cursor == null) {
 
 				User user = new User();
@@ -142,11 +163,11 @@ public class AdminController {
 	public String getbill(Model model) {
 
 		try {
-			setModelLoad(model);
+			
 			List bill_list = new ArrayList();
-			DBCollection coll = MongoFactory.getCollection("dbwebflower", "Bill");
+			
 
-			DBCursor cursor = coll.find();
+			DBCursor cursor = coll_bill.find();
 			while (cursor.hasNext()) {
 				DBObject dbObject = cursor.next();
 
@@ -170,13 +191,13 @@ public class AdminController {
 
 	@RequestMapping(value = "/bill", method = RequestMethod.POST)
 	public String getbill(Model model, @RequestParam("searchemail") String searchemail) {
-		setModelLoad(model);
+		
 		List bill_list = new ArrayList();
 		try {
-			DBCollection coll = MongoFactory.getCollection("dbwebflower", "Bill");
+		
 			DBObject where_query = new BasicDBObject();
 			where_query.put("billid", Pattern.compile(searchemail.toString()));
-			DBCursor cursor = coll.find(where_query);
+			DBCursor cursor = coll_bill.find(where_query);
 			if (cursor == null) {
 				Bill bill = new Bill();
 				bill.setBillid("Không tìm thấy");
@@ -213,18 +234,18 @@ public class AdminController {
 
 	public void setModelLoad(Model model) {
 		try {
-
-			DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
-			Integer billcount = colls.find().count();
+			//System.out.println("Run set model load");
+			//DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
+			Integer billcount = coll_bill.find().count();
 //////////////////////////////////////////////////////////////////////////
-			DBCollection coll = MongoFactory.getCollection("dbwebflower", "User");
-			Integer customercount = coll.find().count();
+			//DBCollection coll = MongoFactory.getCollection("dbwebflower", "User");
+			Integer customercount = coll_user.find().count();
 //////////////////////////////////////////////////////////////////////////
 			Date today = new Date(); // get the current date
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String currentDate = dateFormat.format(today); // convert the date to a string in the desired format
 
-			DBCollection newordertoday = MongoFactory.getCollection("dbwebflower", "Bill");
+			//DBCollection newordertoday = MongoFactory.getCollection("dbwebflower", "Bill");
 
 			// Set the fromDate.
 			Date fromDate = dateFormat.parse(currentDate);
@@ -238,8 +259,8 @@ public class AdminController {
 			DBObject where_query = new BasicDBObject();
 			where_query.put("datebuy", new BasicDBObject("$gte", fromDate).append("$lte", toDate));
 			// where_query.put("datebuy", new BasicDBObject("$lte", toDate));
-			System.out.print(fromDate.toString() + "/" + toDate.toString());
-			Integer newordertodaycount = newordertoday.find(where_query).count();
+			//System.out.print(fromDate.toString() + "/" + toDate.toString());
+			Integer newordertodaycount = coll_bill.find(where_query).count();
 			// System.out.print("sads"+newordertodaycount);
 //////////////////////////////////////////////////////////////////////////
 			// todate
@@ -249,12 +270,12 @@ public class AdminController {
 			// fromfirstdateofweek
 			call.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
 			Date startDate = call.getTime();
-			DBCollection newOrders = MongoFactory.getCollection("dbwebflower", "Bill");
+			//DBCollection newOrders = MongoFactory.getCollection("dbwebflower", "Bill");
 
 			DBObject query = new BasicDBObject();
 			query.put("datebuy", new BasicDBObject("$gte", startDate).append("$lte", endDate));
 
-			Integer orderCountFirstWeekEndWeek = newOrders.find(query).count();
+			Integer orderCountFirstWeekEndWeek = coll_bill.find(query).count();
 			// System.out.println(orderCount + endDate.toString() + startDate.toString());
 
 			// best seller top 5
@@ -269,16 +290,16 @@ public class AdminController {
 			DBObject limit = new BasicDBObject("$limit", 5);
 
 			// get the 'Order' collection from 'dbwebflower'
-			DBCollection orderCollection = MongoFactory.getCollection("dbwebflower", "Order");
+			//DBCollection orderCollection = MongoFactory.getCollection("dbwebflower", "Order");
 
-			AggregationOutput output = orderCollection.aggregate(group, sort, limit);
+			AggregationOutput output = coll_order.aggregate(group, sort, limit);
 			int idflower = 1;
 			for (DBObject result : output.results()) {
 				if (result != null) {
-					DBCollection findNameflower = MongoFactory.getCollection("dbwebflower", "Flowers");
+					
 					BasicDBObject whereQuery = new BasicDBObject();
 					whereQuery.put("flowerid", result.get("_id"));
-					DBCursor cursor = findNameflower.find(whereQuery);
+					DBCursor cursor = coll_flower.find(whereQuery);
 					if (cursor.hasNext()) {
 						DBObject flowerObject = cursor.next();
 						String name = (String) flowerObject.get("name");
@@ -290,10 +311,10 @@ public class AdminController {
 				}
 			}
 //////////////////////////////////////////////////////////////////////////
-			DBCollection flowerCollection = MongoFactory.getCollection("dbwebflower", "Flowers");
+			
 
 			DBObject querys = new BasicDBObject("stock", new BasicDBObject("$lte", 10));
-			Integer countoutstock = flowerCollection.find(querys).count();
+			Integer countoutstock = coll_flower.find(querys).count();
 			// System.out.print(count+"/");
 
 			//
@@ -308,5 +329,37 @@ public class AdminController {
 
 		}
 	}
+//////////////////////////////////CRUD FLOWER //////////////////////
+	@RequestMapping(value = "/flowercreate", method = RequestMethod.GET)
+	public String createflower(Model model) {
 
+				return "/admin/Layout_Admin/flower_create";
+	}
+	@RequestMapping(value = "/flowercreate", method = RequestMethod.POST)
+	public String createflower(Model model, HttpServletRequest request) {
+		
+		String flowername = request.getParameter("flowername");
+		String flowerprice = request.getParameter("flowerprice");
+		String flowerstock = request.getParameter("flowerstock");
+		String flowersdecrip = request.getParameter("flowersdecrip");
+		String image = request.getParameter("geturlcloud");
+		String flowerid = "";
+		if(!flowername.isEmpty() ||!flowerprice.isEmpty() ||!flowerstock.isEmpty()) {
+			flowerid = FlowerService.generatemaxid();
+			//System.out.print(flowerid +"/"+flowername + "/" + flowerprice+ "/" + flowerstock +"/"+image );
+			Flower flower = new Flower();
+			flower.setFlowerid(FlowerService.generatemaxid());
+		    flower.setName(flowername);
+		    flower.setDescription(flowersdecrip);
+		    flower.setPrice(Integer.parseInt(flowerprice));
+		    flower.setUrl(image);
+		    flower.setStock(Integer.parseInt(flowersdecrip));
+		    FlowerService.add(flower);
+		}
+		
+		
+
+
+		return "/admin/Layout_Admin/Bill_index";
+	}
 }

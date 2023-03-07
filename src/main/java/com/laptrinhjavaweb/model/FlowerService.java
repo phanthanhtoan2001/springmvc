@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -46,9 +47,53 @@ public class FlowerService {
         return flower_list;
     }
 	
+	   public static Boolean add(Flower flower) {
+	        boolean output = false;
+	        try {
+	            DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+
+	            // Create a new object and add the new user details to this object.
+	            BasicDBObject doc = new BasicDBObject();
+	            doc.put("flowerid", flower.getFlowerid());
+	            doc.put("name", flower.getName());
+	            doc.put("description", flower.getDescription().toString());
+	            doc.put("price", flower.getPrice());
+	            doc.put("image", flower.getUrl());    
+	            //
+	            //
+	            
+	            doc.put("stock", flower.getStock());    
+	            coll.insert(doc);
+	            output = true;
+	        } catch (Exception e) {
+	            output = false;
+	            log.error("An error occurred while saving a new user to the mongo database", e);
+	        }
+	        return output;
+	    }
 	
+	  public static String generatemaxid() {
+			 List<Flower> flower_list = getAll();
+
+
+			int max =0;
+			for (Flower flower : flower_list) {
+				String temp = flower.getFlowerid().substring(2);
+				
+				if (Integer.parseInt(temp) > max) {
+					max = Integer.parseInt(temp);
+				}
+			}
+			max++;
+			if(max < 10) {
+				return "FL00"+max;
+			}else {
+				if(max > 9 && max <100) {
+					return "FL0"+max;
+				}else return "FL"+max;
+			}
 	
-	
+		}
 	
 	
 	public static Flower find(String id) {
