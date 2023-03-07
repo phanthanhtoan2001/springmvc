@@ -72,7 +72,7 @@
 													<td><c:out value="${list_bill.orderid}" /></td>
 													<td><c:out value="${list_bill.note}" /></td>
 													<td><c:out value="${list_bill.date}" /></td>
-													<td><a href="#">chi tiết</a></td>
+													<td><a href="${pageContext.request.contextPath }/admin/bill/detail?id=${list_bill.billid}">chi tiết</a></td>
 
 													<%-- <td><c:url var="editUrl"
 															value="/user/edit?id=${user.id}" /><a id="update"

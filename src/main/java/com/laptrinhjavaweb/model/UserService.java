@@ -34,6 +34,8 @@ public class UserService {
             user.setId(dbObject.get("id").toString());
             user.setName(dbObject.get("name").toString());
             user.setAddress(dbObject.get("address").toString());
+            user.setPhonenum(dbObject.get("phonenum").toString());
+            user.setEmail(dbObject.get("email").toString());
 
             // Adding the user details to the list.
             user_list.add(user);
@@ -52,9 +54,11 @@ public class UserService {
 
             // Create a new object and add the new user details to this object.
             BasicDBObject doc = new BasicDBObject();
-            doc.put("id", String.valueOf(ran.nextInt(100)));
+            doc.put("id", user.getEmail());
             doc.put("name", user.getName());
             doc.put("address", user.getAddress());
+            doc.put("phonenum", user.getPhonenum());
+            doc.put("email", user.getEmail());
 
             // Save a new user to the mongo collection.
             coll.insert(doc);
@@ -124,7 +128,7 @@ public class UserService {
     }
 
     // Fetching a single user details from the mongo database.
-    public User findUserId(String id) {
+    public static User findUserId(String id) {
         User u = new User();
         DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
@@ -139,4 +143,15 @@ public class UserService {
         // Return user object.
         return u;
     }
+    
+	   public static User find(String id) {
+			 List<User> user_list = getAll();
+			
+			for (User user : user_list) {
+				if (user.getId().equalsIgnoreCase(id)) {
+					return user;
+				}
+			}
+			return null;
+		}
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -20,9 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.laptrinhjavaweb.controller.Admin.*;
 import com.laptrinhjavaweb.model.Bill;
+import com.laptrinhjavaweb.model.BillService;
 import com.laptrinhjavaweb.model.Flower;
+import com.laptrinhjavaweb.model.FlowerService;
+import com.laptrinhjavaweb.model.Item;
 import com.laptrinhjavaweb.model.MongoFactory;
+import com.laptrinhjavaweb.model.Order;
+import com.laptrinhjavaweb.model.OrderService;
 import com.laptrinhjavaweb.model.User;
+import com.laptrinhjavaweb.model.UserService;
 import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -61,7 +68,7 @@ public class AdminController {
 				user.setAddress(dbObject.get("address").toString());
 				if (dbObject.get("roles").toString() == "customer") {
 					user.setRoles("Khách hàng");
-				}else {
+				} else {
 					user.setRoles("Quản lý");
 					user.setRoles(dbObject.get("roles").toString());
 					user.setEmail(dbObject.get("email").toString());
@@ -209,6 +216,36 @@ public class AdminController {
 		}
 
 		return "/admin/Layout_Admin/Bill_index";
+	}
+
+	@RequestMapping(value = "/bill/detail", method = RequestMethod.GET)
+	public String billdetail(Model model, HttpSession session, @RequestParam(value = "id") String id) {
+		List<Order> order_list = OrderService.getAll();
+		List<Order> Billorder_list = new ArrayList<Order>();
+		List<Flower> flower_list = FlowerService.getAll();
+		List<Item> cart = new ArrayList<Item>();
+		Bill bill = BillService.find(id);
+
+		for (Order order : order_list) {
+			if (bill.getOrderid().equals(order.getOrderid())) {
+				Billorder_list.add(order);
+			}
+		}
+		for(Flower flower: flower_list) {
+			for (Order order : Billorder_list) {
+				if (flower.getFlowerid().equals(order.getFlowerid())) {
+					cart.add(new Item(FlowerService.find(flower.getFlowerid()), order.getQuantity()));
+				}
+			}
+		}
+		
+		User user = UserService.find(Billorder_list.get(0).getUserid().toString());
+		session.setAttribute("cart", cart);
+		model.addAttribute("user", user);
+		model.addAttribute("flower", flower_list);
+		model.addAttribute("bill", bill);
+		model.addAttribute("billorder", Billorder_list);
+		return "/admin/Layout_Admin/Bill_detail";
 	}
 
 	public void setModelLoad(Model model) {

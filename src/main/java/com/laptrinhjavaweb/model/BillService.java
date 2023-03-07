@@ -93,5 +93,15 @@ public class BillService {
 			return null;
 		}
 	   
+	   public static Bill findorderid(String id) {
+			 List<Bill> bill_list = getAll();
+			
+			for (Bill bill : bill_list) {
+				if (bill.getOrderid().equalsIgnoreCase(id)) {
+					return bill;
+				}
+			}
+			return null;
+		}
 	   
 }

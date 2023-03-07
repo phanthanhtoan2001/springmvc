@@ -2,7 +2,10 @@ package com.laptrinhjavaweb.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Bill {
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	public String getBillid() {
 		return billid;
 	}
