@@ -61,7 +61,7 @@ public class AdminController {
 				user.setAddress(dbObject.get("address").toString());
 				if (dbObject.get("roles").toString() == "customer") {
 					user.setRoles("Khách hàng");
-
+				}else {
 					user.setRoles("Quản lý");
 					user.setRoles(dbObject.get("roles").toString());
 					user.setEmail(dbObject.get("email").toString());
