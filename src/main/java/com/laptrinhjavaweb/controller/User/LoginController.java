@@ -56,6 +56,14 @@ public class LoginController {
 			u.setPhonenum(dbo.get("phonenum").toString());
 			session.setAttribute("loginsession", u);
 
+			if (u.getRoles().contains("customer")) {
+				
+				return "loginsucces";
+			} else {
+			
+				return "redirect:/admin/welcome";
+			}
+
 		} catch (Exception e) {
 
 			DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
@@ -89,7 +97,6 @@ public class LoginController {
 
 		}
 
-		return "loginsucces";
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.GET)
@@ -97,8 +104,13 @@ public class LoginController {
 		try {
 			User checklogin = (User) session.getAttribute("loginsession");
 			if (!checklogin.getName().isEmpty()) {
+				if (checklogin.getRoles().contains("customer")) {
 
-				return "loginsucces";
+					return "loginsucces";
+				} else {
+
+					return "redirect:/admin/welcome";
+				}
 			} else
 				return "login";
 
@@ -142,8 +154,13 @@ public class LoginController {
 		}
 		if (username.equalsIgnoreCase(u.getEmail()) && password.equalsIgnoreCase(u.getPassword())) {
 			session.setAttribute("loginsession", u);
+			if (u.getRoles().contains("customer")) {
 
-			return "loginsucces";
+				return "loginsucces";
+			} else {
+
+				return "redirect:/admin/welcome";
+			}
 		} else {
 			modelMap.put("error", "Sai tài khoản hoặc mật khẩu !");
 
