@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -64,14 +65,14 @@
 											</tr>
 										</thead>
 										<tbody>
-
 											<c:forEach items="${list_bill}" var="list_bill">
 												<tr align="center">
 													<td><c:out value="${list_bill.billid}" /></td>
 													<td><c:out 	value="${list_bill.method}" /></td>
 													<td><c:out value="${list_bill.orderid}" /></td>
 													<td><c:out value="${list_bill.note}" /></td>
-													<td><c:out value="${list_bill.date}" /></td>
+													<td>												<fmt:formatDate
+									pattern="dd/MM/yyyy" value="${list_bill.date}" /></td>
 													<td><a href="${pageContext.request.contextPath }/admin/bill/detail?id=${list_bill.billid}">chi tiết</a></td>
 
 													<%-- <td><c:url var="editUrl"
@@ -81,6 +82,7 @@
 															value="/user/delete?id=${user.id}" /><a id="delete"
 														href="${deleteUrl}" class="btn btn-danger">Delete</a></td> --%>
 												</tr>
+
 											</c:forEach>
 										</tbody>
 										<tfoot>
