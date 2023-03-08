@@ -56,15 +56,15 @@ public class UserController {
 		model.addAttribute("userAttr", new User());
 		return "form";
 	}
-
+///--------------------------------------------------------------------------
 	// Opening the edit user form page.
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String editUser(@RequestParam(value = "id", required = true) String id, Model model) {
 		log.debug("Request to open the edit user form page");
 		model.addAttribute("userAttr", userService.findUserId(id));
-		return "form";
+		return "edituser";
 	}
-
+//--------------------------------------------------------------------------
 	// Deleting the specified user.
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public String delete(@RequestParam(value = "id", required = true) String id, Model model) {
@@ -75,12 +75,10 @@ public class UserController {
 	// Adding a new user or updating an existing user.
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public String save(@ModelAttribute("userAttr") User user) {
-		if (user.getId() != null && !user.getId().trim().equals("")) {
+		
 			userService.edit(user);
-		} else {
-			userService.add(user);
-		}
-		return "redirect:list";
+	
+		return "edituser";
 	}
 
 
