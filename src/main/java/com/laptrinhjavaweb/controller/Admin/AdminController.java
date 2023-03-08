@@ -39,7 +39,8 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import java.text.SimpleDateFormat;  
+import java.text.SimpleDateFormat;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -49,6 +50,7 @@ public class AdminController {
 	DBCollection coll_bill = MongoFactory.getCollection("dbwebflower", "Bill");
 	DBCollection coll_order = MongoFactory.getCollection("dbwebflower", "Order");
 	DBCollection coll_flower = MongoFactory.getCollection("dbwebflower", "Flowers");
+	
 
 	// Displaying the initial users list.
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
@@ -68,42 +70,49 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/customer", method = RequestMethod.GET)
-	public String getcustomer(Model model) {
+	public String getcustomer(Model model, HttpSession session) {
+		User temp = (User) session.getAttribute("loginsession");
+		if (temp != null) {
+			if (temp.getRoles().contains("admin")) {
+				try {
 
-		try {
+					List user_list = new ArrayList();
 
-			List user_list = new ArrayList();
+					DBCursor cursor = coll_user.find();
+					while (cursor.hasNext()) {
+						DBObject dbObject = cursor.next();
 
-			DBCursor cursor = coll_user.find();
-			while (cursor.hasNext()) {
-				DBObject dbObject = cursor.next();
+						User user = new User();
+						user.setId(dbObject.get("id").toString());
+						user.setName(dbObject.get("name").toString());
+						user.setAddress(dbObject.get("address").toString());
+						if (dbObject.get("roles").toString() == "customer") {
+							user.setRoles("Khách hàng");
+						} else {
+							user.setRoles("Quản lý");
+						}
+						// user.setRoles(dbObject.get("roles").toString());
+						user.setEmail(dbObject.get("email").toString());
+						user.setAddress(dbObject.get("address").toString());
+						user.setPhonenum(dbObject.get("phonenum").toString());
+						// Adding the user details to the list.
+						user_list.add(user);
 
-				User user = new User();
-				user.setId(dbObject.get("id").toString());
-				user.setName(dbObject.get("name").toString());
-				user.setAddress(dbObject.get("address").toString());
-				if (dbObject.get("roles").toString() == "customer") {
-					user.setRoles("Khách hàng");
-				} else {
-					user.setRoles("Quản lý");
+					}
+					model.addAttribute("list_customer", user_list);
+				} catch (Exception e) {
+					/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
+					model.addAttribute("list_customer", null);
+
+					return "/login";
 				}
-				// user.setRoles(dbObject.get("roles").toString());
-				user.setEmail(dbObject.get("email").toString());
-				user.setAddress(dbObject.get("address").toString());
-				user.setPhonenum(dbObject.get("phonenum").toString());
-				// Adding the user details to the list.
-				user_list.add(user);
 
-			}
-			model.addAttribute("list_customer", user_list);
-		} catch (Exception e) {
-			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
-			model.addAttribute("list_customer", null);
+				return "/admin/Layout_Admin/cusomter_index";
+			} else
+				return "/login";
+		} else
+			return "/login";
 
-			return "login";
-		}
-
-		return "/admin/Layout_Admin/cusomter_index";
 	}
 
 	@RequestMapping(value = "/customer", method = RequestMethod.POST)
@@ -177,7 +186,7 @@ public class AdminController {
 				bill.setMethod(dbObject.get("payment_method").toString());
 				bill.setOrderid(dbObject.get("orderid").toString());
 				bill.setNote(dbObject.get("note").toString());
-				bill.setDate((Date)dbObject.get("datebuy"));
+				bill.setDate((Date) dbObject.get("datebuy"));
 				bill_list.add(bill);
 			}
 			model.addAttribute("list_bill", bill_list);
@@ -489,7 +498,7 @@ public class AdminController {
 			flower.setPrice(Double.parseDouble(dbObject.get("price").toString()));
 			flower.setUrl(dbObject.get("image").toString());
 			flower.setStock(Integer.parseInt(dbObject.get("stock").toString()));
-			System.out.print(flower.getName());
+
 			model.addAttribute("flowerUpdate", flower);
 		} catch (Exception ex) {
 		}
@@ -517,6 +526,7 @@ public class AdminController {
 			edited.put("price", Double.parseDouble(flowerprice));
 			edited.put("image", image);
 			edited.put("stock", Integer.parseInt(flowerstock));
+
 			coll_flower.update(dbfindupdate, edited);
 
 		} catch (Exception ex) {

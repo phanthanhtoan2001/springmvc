@@ -116,7 +116,7 @@ public class FlowerService {
 	            //
 	            
 	            doc.put("stock", flower.getStock()); 
-	            System.out.print(doc);
+	            //System.out.print(doc);
 	            coll.insert(doc);
 	            output = true;
 	        } catch (Exception e) {
