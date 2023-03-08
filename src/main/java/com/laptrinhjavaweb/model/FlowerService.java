@@ -187,34 +187,19 @@ public class FlowerService {
 
 		for (Flower flower : flower_list) {
 			if (flower.getFlowerid().equals(id)) {
-				flower.setStock(flower.getStock() - reduce);
-				
-				String flowername = flower.getName().toString();
-				
-				
-				try {		
-//					DBObject where_query = new BasicDBObject();
-//					where_query.put("flowerid", id);
-//					DBObject dbfindupdate = coll.findOne(where_query);
-//					BasicDBObject edited = new BasicDBObject();
-//					edited.put("flowerid", flower.getFlowerid());
-//					edited.put("name", utf8(flowername));
-//					edited.put("description", utf8(flower.getDescription()));
-//					edited.put("price", flower.getPrice());
-//					edited.put("image", flower.getUrl());
-//					edited.put("stock", flower.stock); 
-//					System.out.println(utf8(flowername));
-//					System.out.println(flowername);
-//					System.out.println(edited);
-//					System.out.println(flower);
-//					coll.update(dbfindupdate, edited);
-					
-					flower.setName(utf8(flowername));
-					add(flower);
-					return flower;
-				} catch (Exception e) {
-					log.error("An error occurred while saving a new user to the mongo database", e);
-				}
+				flower.setStock(flower.getStock() - reduce);								
+					DBObject where_query = new BasicDBObject();
+					where_query.put("flowerid", id);
+					DBObject dbfindupdate = coll.findOne(where_query);
+					DBObject edited = new BasicDBObject();
+					edited.put("flowerid", flower.getFlowerid());
+					edited.put("name", flower.getName());
+					edited.put("description", flower.getDescription());
+					edited.put("price", flower.getPrice());
+					edited.put("image", flower.getUrl());
+					edited.put("stock", flower.stock); 
+					coll.update(dbfindupdate, edited);
+					return flower;					
 			}
 		}
 		return null;
