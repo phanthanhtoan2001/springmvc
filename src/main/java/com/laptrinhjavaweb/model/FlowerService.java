@@ -18,11 +18,55 @@ import com.mongodb.DBObject;
 public class FlowerService {
 	
 	  static String db_name = "dbwebflower", db_collection = "Flowers";
-	   private static Logger log = Logger.getLogger(UserService.class);
+	   private static Logger log = Logger.getLogger(FlowerService.class);
 	
+	public static List getAll(int pageNum, int pageSize) {
+		List flower_list = new ArrayList();
+		 int skip = (pageNum - 1) * pageSize; // tính vị trí bắt đầu của trang hiện tại
+		DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+	    DBCursor cursor = coll.find().skip(skip).limit(pageSize);
+
+		while (cursor.hasNext()) {
+			DBObject dbObject = cursor.next();
+
+			Flower flower = new Flower();
+			flower.setFlowerid(dbObject.get("flowerid").toString());
+			flower.setName(dbObject.get("name").toString());
+			flower.setDescription(dbObject.get("description").toString());
+			flower.setUrl(dbObject.get("url").toString());
+			flower.setStock(((Integer) dbObject.get("stock")).intValue());
+			flower.setPrice((double) dbObject.get("price"));
 	
+
+			flower_list.add(flower);
+		}
+		log.debug("Total records fetched from the mongo database are= " + flower_list.size());
+		return flower_list;
+	}
+
+
+	// Đếm tổng số sản phẩm có trong bảng
+    public static int getFlowerCount() {
+        DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+        return (int) coll.count();
+    }
+	//-------------------------------------------------------------------------------------------------
+	// Tìm kiếm hoa có trong db
+	public static List<Flower> search(String keyword) {
+
+		List<Flower> flowers = getAll();
+		List<Flower> result = new ArrayList<>();
+		for (Flower flower : flowers) {
+			if (flower.getname().contains(keyword.toLowerCase()) || flower.getname().toLowerCase().contains(keyword)) {
+				result.add(flower);
+			}
+		}
+		return result;
+	}
+	//------------------------------------------------------------------------------------------
+	//Services chi tiết sản phẩm có rồi nên không copy vô
 	
-	
+	//---------------------------------------------------------------------------------------------------
 	public static List getAll() {
         List<Flower> flower_list = new ArrayList();
         DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
