@@ -199,6 +199,13 @@
 											value="${customer_count}" /></span>
 								</p>
 						</a>
+							<li class="nav-item"><a href="${pageContext.request.contextPath }/user/logout" class="nav-link"> <i
+								class="nav-icon fas fa-logout"></i>
+								<p>
+									Đăng xuất</span>
+								</p>
+						</a>
+						
 				</nav>
 				<!-- /.sidebar-menu -->
 			</div>

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
+import org.apache.commons.codec.digest.DigestUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -42,7 +42,6 @@ public class LoginController {
 		User u = new User();
 		User googleu = (User) session.getAttribute("loginsession");
 		try {
-			
 
 			DBObject where_query = new BasicDBObject();
 			where_query.put("email", googleu.getEmail());
@@ -57,16 +56,15 @@ public class LoginController {
 			session.setAttribute("loginsession", u);
 
 			if (u.getRoles().contains("customer")) {
-				
-				return "loginsucces";
+
+				return "redirect:/flower/list";
 			} else {
-			
+
 				return "redirect:/admin/welcome";
 			}
 
 		} catch (Exception e) {
 
-			
 			String id = "";
 			DBCursor cursor = coll_user.find();
 			while (cursor.hasNext()) {
@@ -78,7 +76,9 @@ public class LoginController {
 			BasicDBObject doc = new BasicDBObject();
 			doc.put("id", Integer.toString(temp));
 			doc.put("name", googleu.getEmail());
-			doc.put("password", "$!#@^#$%^#$%#$%DoBaN^&%Bi@tDuoc@P^S$D0");
+			//
+			String md5Hex = DigestUtils.md5Hex("$!#@^#$%^#$%#$%DoBaN^&%Bi@tDuoc@P^S$D0").toUpperCase();
+			doc.put("password", md5Hex);
 			doc.put("roles", "customer");
 			doc.put("email", googleu.getEmail());
 			doc.put("address", "Cap nhat");
@@ -93,7 +93,7 @@ public class LoginController {
 			// Save a new user to the mongo collection.
 			coll_user.insert(doc);
 			session.setAttribute("loginsession", tempus);
-			return "loginsucces";
+			return "redirect:/flower/list";
 
 		}
 
@@ -106,7 +106,7 @@ public class LoginController {
 			if (!checklogin.getName().isEmpty()) {
 				if (checklogin.getRoles().contains("customer")) {
 
-					return "loginsucces";
+					return "redirect:/flower/list";
 				} else {
 
 					return "redirect:/admin/welcome";
@@ -132,11 +132,12 @@ public class LoginController {
 	public String login(@RequestParam("username") String username, @RequestParam("password") String password,
 			HttpSession session, ModelMap modelMap) {
 		User u = new User();
+		String md5Hex = DigestUtils.md5Hex(password).toUpperCase();
 		try {
 			
 
 			DBObject where_query = new BasicDBObject();
-			where_query.put("password", password.toString());
+			where_query.put("password", md5Hex);
 			where_query.put("email", username.toString());
 
 			DBObject dbo = coll_user.findOne(where_query);
@@ -147,16 +148,17 @@ public class LoginController {
 			u.setPassword(dbo.get("password").toString());
 			u.setAddress(dbo.get("address").toString());
 			u.setPhonenum(dbo.get("phonenum").toString());
+			
 		} catch (Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
 			modelMap.put("error", "Không tồn tại Email này trong hệ thống hoặc Sai tài khoản hoặc mật khẩu !");
 			return "login";
 		}
-		if (username.equalsIgnoreCase(u.getEmail()) && password.equalsIgnoreCase(u.getPassword())) {
+		if (username.equals(u.getEmail()) && md5Hex.equals(u.getPassword())) {
 			session.setAttribute("loginsession", u);
 			if (u.getRoles().contains("customer")) {
 
-				return "loginsucces";
+				return "redirect:/flower/list";
 			} else {
 
 				return "redirect:/admin/welcome";
@@ -180,9 +182,9 @@ public class LoginController {
 			@RequestParam("password") String password, @RequestParam("email") String email, Map<String, Object> model,
 			ModelMap modelMap) {
 		User u = new User();
+		
 		// implement your own registration logic here...
 		try {
-			
 
 			DBObject where_query = new BasicDBObject();
 			where_query.put("email", email.toString());
@@ -199,8 +201,7 @@ public class LoginController {
 			modelMap.put("error", "Đã tồn tại email hoặc tài khoản này trong hệ thống!");
 		} catch (Exception e) {
 			if (!username.toString().isEmpty() || !password.toString().isEmpty() || !email.toString().isEmpty()) {
-
-				
+				String md5Hex = DigestUtils.md5Hex(password).toUpperCase();
 				String id = "";
 				DBCursor cursor = coll_user.find();
 				while (cursor.hasNext()) {
@@ -212,7 +213,7 @@ public class LoginController {
 				BasicDBObject doc = new BasicDBObject();
 				doc.put("id", Integer.toString(temp));
 				doc.put("name", username.toString());
-				doc.put("password", password.toString());
+				doc.put("password", md5Hex);
 				doc.put("roles", "customer");
 				doc.put("email", email.toString());
 				doc.put("address", "Cap nhat");
@@ -254,16 +255,16 @@ public class LoginController {
 			u.setAddress(dbo.get("address").toString());
 			u.setPhonenum(dbo.get("phonenum").toString());
 
-			if (email.equalsIgnoreCase(u.getEmail())) {
+			if (email.equals(u.getEmail())) {
 
 				// xu ly email
 				String pass = generatePassword(12);
 				// save
-
+				String md5Hex = DigestUtils.md5Hex(pass).toUpperCase();
 				BasicDBObject edited = new BasicDBObject();
 				edited.put("id", u.getId());
 				edited.put("name", u.getName());
-				edited.put("password", pass);
+				edited.put("password", md5Hex);
 				edited.put("roles", u.getRoles());
 				edited.put("email", u.getEmail());
 				edited.put("address", u.getAddress());

@@ -21,10 +21,10 @@ public class OrderService {
 	
 	static String db_name = "dbwebflower", db_collection = "Order";
 	   private static Logger log = Logger.getLogger(UserService.class);
-	
+	   public static DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 	   public static List getAll() {
 	        List<Order> order_list = new ArrayList();
-	        DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+	       
 	 
 	        // Fetching cursor object for iterating on the database records.
 	        DBCursor cursor = coll.find();  
@@ -50,7 +50,7 @@ public class OrderService {
 	        boolean output = false;
 	        Random ran = new Random();
 	        try {
-	            DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+	           // DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
 	            // Create a new object and add the new user details to this object.
 	            BasicDBObject doc = new BasicDBObject();

@@ -84,7 +84,7 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-2 col-md-4 text-center d-none d-lg-block">
-					<c:url var="list" value="/home/list" />
+					<c:url var="list" value="/flower/list" />
 					<a class="navbar-brand " href="${list}"> <img
 						src="https://res.cloudinary.com/ddt8drwas/image/upload/v1677545485/templatemo_logo_pxgzbv.png"
 						alt="" class="img-fluid">
@@ -98,7 +98,7 @@
 						<div class="collapse navbar-collapse" id="navbar-collapse">
 							<ul id="menu" class="menu navbar-nav mx-auto">
 								<li class="nav-item dropdown"><a
-									class="nav-link dropdown-toggle" href="/home/list"
+									class="nav-link dropdown-toggle" href="/flower/list"
 									id="navbarDropdown" role="button" data-toggle="dropdown"
 									aria-haspopup="true" aria-expanded="false"> Trang chủ </a></li>
 								<li class="nav-item dropdown"><a
@@ -202,7 +202,7 @@
 	<!--------------------------------------->
 	<div class="d-flex justify-content-center"
 		style="margin-top: 50px; margin-bottom: 50px">
-		<form class="form-inline" action="<c:url value='/home/search'/>"
+		<form class="form-inline" action="<c:url value='/flower/search'/>"
 			style="background-color: #666; padding: 10px; border-radius: 25px;">
 			<div class="form-group mx-sm-3 mb-2">
 				<label for="keyword" class="sr-only">Search</label> <input
@@ -224,9 +224,9 @@
 								<div class="col-lg-3 col-md-6">
 									<article class="post-grid mb-5">
 										<c:url var="detailUrl"
-											value="/home/detail?id=${flower.flowerid}" />
+											value="/flower/detail?id=${flower.flowerid}" />
 										<a class="post-thumb mb-4 d-block" href="${detailUrl}"> <img
-											src="<c:out value="${flower.image}" />" alt=""
+											src="<c:out value="${flower.url}" />" alt=""
 											class="img-fluid w-100">
 										</a> <span
 											class=" cat-name text-color font-sm font-extra text-uppercase letter-spacing">Lifestyle</span>

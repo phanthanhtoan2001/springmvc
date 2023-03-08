@@ -36,14 +36,14 @@ public class FlowerController {
 	private static final String DB_COLLECTION = "Flowers";
 	private static final Logger LOG = Logger.getLogger(FlowerController.class);
 
-	@Resource(name = "flowersService")
-	public FlowersService flowersService;
+	@Resource(name = "flowerService")
+	public FlowerService flowerService;
 	@GetMapping("/list")
 	public String getAllFlowers(Model model, @RequestParam(defaultValue = "1") int pageNum,
 			@RequestParam(defaultValue = "12") int pageSize) {
 		LOG.debug("Request to fetch all flowers from the mongo database");
-		List<Flower> flowerList = FlowersService.getAll(pageNum, pageSize);
-		int flowerCount = flowersService.getFlowerCount();
+		List<Flower> flowerList = FlowerService.getAll(pageNum, pageSize);
+		int flowerCount = flowerService.getFlowerCount();
 		int totalPages = (int) Math.ceil((double) flowerCount/ pageSize);
 
         List<Integer> pages = new ArrayList<>();
@@ -62,13 +62,13 @@ public class FlowerController {
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public String DetailFlower(@RequestParam(value = "id", required = true) String id, Model model) {
 		LOG.debug("Request to open the edit user form page");
-		model.addAttribute("userAttr", FlowersService.find(id));
+		model.addAttribute("userAttr", FlowerService.find(id));
 		return "details";
 	}
 
 	@GetMapping("/search")
 	public String searchFlowers(@RequestParam("keyword") String keyword, Model model) {
-		List<Flower> result = FlowersService.search(keyword);
+		List<Flower> result = FlowerService.search(keyword);
 		model.addAttribute("result", result);
 		return "search-result";
 	}

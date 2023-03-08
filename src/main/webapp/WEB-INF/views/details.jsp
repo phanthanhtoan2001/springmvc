@@ -5,7 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.text.DecimalFormat" %>
-
+<%@ page session="true"%>
+<%@ page import="com.laptrinhjavaweb.model.User"%>
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -63,7 +64,7 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-2 col-md-4 text-center d-none d-lg-block">
-					<c:url var="list" value="/home/list" />
+					<c:url var="list" value="/flower/list" />
 					<a class="navbar-brand " href="${list}"> <img
 						src="https://res.cloudinary.com/ddt8drwas/image/upload/v1677545485/templatemo_logo_pxgzbv.png"
 						alt="" class="img-fluid">
@@ -76,7 +77,7 @@
 							<ul id="menu" class="menu navbar-nav mx-auto">
 
 								<li class="nav-item dropdown"><a
-									class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+									class="nav-link dropdown-toggle" href="${pageContext.request.contextPath }/flower/list" id="navbarDropdown"
 									role="button" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false"> Trang chủ </a></li>
 								<li class="nav-item dropdown"><a
@@ -100,7 +101,7 @@
 											Format</a>
 									</div></li>
 
-								<li class="nav-item"><a href="contact.html"
+								<li class="nav-item"><a href="${pageContext.request.contextPath }cart/index"
 									class="nav-link">Giỏ Hàng</a></li>
 							</ul>
 
@@ -112,11 +113,22 @@
 				<div class="col-lg-2 col-md-4 col-6">
 					<div class="header-socials-2 text-right d-none d-lg-block">
 						<ul class="list-inline mb-0">
-							<li class="list-inline-item"><a href="#"><i
-									class="fa-solid fa-right-from-bracket"></i> logout</a></li>
-							<li class="list-inline-item"><a href="#"> <i
-									class="fa-solid fa-arrow-right-to-bracket"></i> Login
-							</a></li>
+							<%
+							User temp = (User) session.getAttribute("loginsession");
+							if (temp == null) {
+							%>
+							<li class="list-inline-item"><a
+								href="${pageContext.request.contextPath }/user/login"> Login
+							</a></li> 
+							<%
+							} else {
+							%>
+							<li class="list-inline-item"><a
+								href="${pageContext.request.contextPath }/user/logout"><%=temp.getName()%>
+									Logout</a></li>
+							<%
+							}
+							%>
 
 						</ul>
 					</div>
@@ -132,7 +144,7 @@
 
 						<div class="row">
 							<div class="col-md-6">
-								<img src="${userAttr.image}" alt="" class="img-fluid w-100">
+								<img src="${userAttr.url}" alt="" class="img-fluid w-100">
 							</div>
 							<div class="col-md-6">
 								<h5 class="text-uppercase letter-spacing mb-4"></h5>
@@ -148,8 +160,8 @@
  
 								
 								<h4>Mô tả: ${userAttr.description}</h4>
-								<button type="button" class="btn btn-primary mt-3">Thêm
-									vào giỏ hàng</button>
+								<a type="button" class="btn btn-primary mt-3" href="${pageContext.request.contextPath }/cart/buy/${userAttr.flowerid}">Thêm
+									vào giỏ hàng</a>
 							</div>
 						</div>
 

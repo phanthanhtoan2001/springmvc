@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@ page session="true"%>
+<%@ page import="com.laptrinhjavaweb.model.User"%>
 
 
 
@@ -100,7 +101,7 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-2 col-md-4 text-center d-none d-lg-block">
-					<c:url var="list" value="/home/list" />
+					<c:url var="list" value="/flower/list" />
 					<a class="navbar-brand " href="${list}"> <img
 						src="https://res.cloudinary.com/ddt8drwas/image/upload/v1677545485/templatemo_logo_pxgzbv.png"
 						alt="" class="img-fluid">
@@ -114,7 +115,8 @@
 						<div class="collapse navbar-collapse" id="navbar-collapse">
 							<ul id="menu" class="menu navbar-nav mx-auto">
 								<li class="nav-item dropdown"><a
-									class="nav-link dropdown-toggle" href="/home/list"
+									class="nav-link dropdown-toggle"
+									href="${pageContext.request.contextPath }/flower/list"
 									id="navbarDropdown" role="button" data-toggle="dropdown"
 									aria-haspopup="true" aria-expanded="false"> Trang chủ </a></li>
 								<li class="nav-item dropdown"><a
@@ -135,7 +137,8 @@
 											Format</a>
 									</div></li>
 
-								<li class="nav-item"><a href="contact.html"
+								<li class="nav-item"><a
+									href="${pageContext.request.contextPath }cart/index"
 									class="nav-link">Giỏ Hàng</a></li>
 							</ul>
 
@@ -147,8 +150,24 @@
 				<div class="col-lg-2 col-md-4 col-6">
 					<div class="header-socials-2 text-right d-none d-lg-block">
 						<ul class="list-inline mb-0">
-							<li class="list-inline-item"><a href="#"> Logout</a></li>
-							<li class="list-inline-item"><a href="#"> Login </a></li>
+							<%
+							User temp = (User) session.getAttribute("loginsession");
+							if (temp == null) {
+							%>
+							<li class="list-inline-item"><a
+								href="${pageContext.request.contextPath }/user/login"> Login
+							</a></li>
+							<%
+							} else {
+							%>
+							<li class="list-inline-item"><a
+								href="${pageContext.request.contextPath }/user/logout"><%=temp.getName()%>
+									Logout</a></li>
+							<%
+							}
+							%>
+
+
 
 						</ul>
 					</div>
@@ -216,7 +235,7 @@
 
 	<div class="d-flex justify-content-center"
 		style="margin-top: 50px; margin-bottom: 50px">
-		<form class="form-inline" action="<c:url value='/home/search'/>"
+		<form class="form-inline" action="<c:url value='/flower/search'/>"
 			style="background-color: #666; padding: 10px; border-radius: 25px;">
 			<div class="form-group mx-sm-3 mb-2">
 				<label for="keyword" class="sr-only">Search</label> <input
@@ -226,60 +245,70 @@
 			<button type="submit" class="btn btn-primary mb-2">Search</button>
 		</form>
 	</div>
-	<h1 style="color: red">Danh sách sản phẩm bán chạy</h1>
+	<h1 style="text-align: center;">Danh sách sản phẩm bán chạy</h1>
 
 	<section class="section-padding">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="row">
-          <c:forEach items="${flowers}" var="flower">
-            <div class="col-lg-3 col-md-6">
-              <article class="post-grid mb-5">
-                <c:url var="detailUrl" value="/home/detail?id=${flower.flowerid}" />
-                <a class="post-thumb mb-4 d-block" href="${detailUrl}">
-                  <img src="<c:out value="${flower.image}" />" alt="" class="img-fluid w-100">
-                </a>
-                <span class="cat-name text-color font-sm font-extra text-uppercase letter-spacing">Lifestyle</span>
-                <h3 class="post-title mt-1">
-                  <a href="#"><c:out value="${flower.name}" /></a>
-                </h3>
-                <span class="text-muted letter-spacing text-uppercase font-sm">
-                  <fmt:formatNumber value="${flower.price}" pattern="###,### VNĐ" />
-                </span>
-              </article>
-            </div>
-          </c:forEach>
-        </div>
-        <div class="row justify-content-center">
-          <div class="col-md-12">
-            <nav aria-label="Page navigation">
-              <ul class="pagination">
-                <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
-                  <a class="page-link" href="?pageNum=${currentPage - 1}&amp;pageSize=${pageSize}" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                </li>
-                <c:forEach var="page" items="${pages}">
-                  <li class="page-item ${page == currentPage ? 'active' : ''}">
-                    <a class="page-link" href="?pageNum=${page}&amp;pageSize=${pageSize}">${page}</a>
-                  </li>
-                </c:forEach>
-                <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
-                  <a class="page-link" href="?pageNum=${currentPage + 1}&amp;pageSize=${pageSize}" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="row">
+						<c:forEach items="${flowers}" var="flower">
+							<div class="col-lg-3 col-md-6">
+								<article class="post-grid mb-5">
+									<c:url var="detailUrl"
+										value="/flower/detail?id=${flower.flowerid}" />
+									<a class="post-thumb mb-4 d-block" href="${detailUrl}"> <img
+										style="width: 35vw; height: 35vh;"
+										src="<c:out  value="${flower.url}" />" alt=""
+										class="img-fluid w-100">
+									</a> <span
+										class="cat-name text-color font-sm font-extra text-uppercase letter-spacing">Lifestyle</span>
+									<h3 class="post-title mt-1">
+										<a
+											href="${pageContext.request.contextPath }/flower/detail?id=${flower.flowerid}"><c:out
+												value="${flower.name}" /></a>
+									</h3>
+									<span class="text-muted letter-spacing text-uppercase font-sm">
+										<fmt:formatNumber value="${flower.price}"
+											pattern="###,### VNĐ" />
+									</span>
+								</article>
+							</div>
+						</c:forEach>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-md-12">
+							<nav aria-label="Page navigation">
+								<ul class="pagination">
+									<li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+										<a class="page-link"
+										href="?pageNum=${currentPage - 1}&amp;pageSize=${pageSize}"
+										aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+											<span class="sr-only">Previous</span>
+									</a>
+									</li>
+									<c:forEach var="page" items="${pages}">
+										<li class="page-item ${page == currentPage ? 'active' : ''}">
+											<a class="page-link"
+											href="?pageNum=${page}&amp;pageSize=${pageSize}">${page}</a>
+										</li>
+									</c:forEach>
+									<li
+										class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+										<a class="page-link"
+										href="?pageNum=${currentPage + 1}&amp;pageSize=${pageSize}"
+										aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+											<span class="sr-only">Next</span>
+									</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<!-- ------------------------------------- -->
 

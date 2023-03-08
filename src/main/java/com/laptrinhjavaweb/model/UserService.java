@@ -19,11 +19,11 @@ public class UserService {
 
     static String db_name = "dbwebflower", db_collection = "User";
     private static Logger log = Logger.getLogger(UserService.class);
-
+    public static DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
     // Fetch all users from the mongo database.
     public static List getAll() {
     	List<User> user_list =(List<User>) new ArrayList();
-        DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+       
 
         // Fetching cursor object for iterating on the database records.
         DBCursor cursor = coll.find();
@@ -50,7 +50,7 @@ public class UserService {
         Random ran = new Random();
         log.debug("Adding a new user to the mongo database; Entered user_name is= " + user.getName());
         try {
-            DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+           // DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
             // Create a new object and add the new user details to this object.
             BasicDBObject doc = new BasicDBObject();
@@ -78,7 +78,7 @@ public class UserService {
             // Fetching the user details.
             BasicDBObject existing = (BasicDBObject) getDBObject(user.getId());
 
-            DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+           // DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
             // Create a new object and assign the updated details.
             BasicDBObject edited = new BasicDBObject();
@@ -103,7 +103,7 @@ public class UserService {
             // Fetching the required user from the mongo database.
             BasicDBObject item = (BasicDBObject) getDBObject(id);
 
-            DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+           // DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
             // Deleting the selected user from the mongo database.
             coll.remove(item);
@@ -117,7 +117,7 @@ public class UserService {
 
     // Fetching a particular record from the mongo database.
     private DBObject getDBObject(String id) {
-        DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+     //   DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
         // Fetching the record object from the mongo database.
         DBObject where_query = new BasicDBObject();
@@ -130,7 +130,7 @@ public class UserService {
     // Fetching a single user details from the mongo database.
     public static User findUserId(String id) {
         User u = new User();
-        DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+      //  DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
 
         // Fetching the record object from the mongo database.
         DBObject where_query = new BasicDBObject();
