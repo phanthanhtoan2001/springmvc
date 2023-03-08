@@ -136,7 +136,7 @@
 									</div></li>
 
 								<li class="nav-item"><a
-									href="${pageContext.request.contextPath }cart/index"
+									href="${pageContext.request.contextPath }/cart/index"
 									class="nav-link">Giỏ Hàng</a></li>
 							</ul>
 
