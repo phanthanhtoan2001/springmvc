@@ -42,12 +42,15 @@ public class PaymentController {
 	@RequestMapping(value = "/paymentmomo", method = RequestMethod.GET)
 	public String payment(Model model, HttpSession session, HttpServletRequest request) throws Exception {
 		//
+		List<Item> cart = (List<Item>) session.getAttribute("cart");
 		LogUtils.init();
 		String requestId = String.valueOf(System.currentTimeMillis());
 		String orderId = String.valueOf(System.currentTimeMillis());
 		Long transId = 2L;
-		long amount = 2000;
-
+		long amount = money(session);
+		
+		
+		
 		String partnerClientId = "partnerClientId";
 		String orderInfo = "Pay Withasdasdasd MoMo";
 		String returnURL = "http://localhost:8088/java-web/payment/confirmmomo";
@@ -126,6 +129,17 @@ public class PaymentController {
 		BillService.add(bill);
 
 		return "payment/checkout";
+	}
+	
+	
+	public int money(HttpSession session) {
+		List<Item> cart = (List<Item>) session.getAttribute("cart");
+		 int sum = 0;
+		for (Item item : cart){
+			sum += item.getQuantity() * item.getFlower().getPrice();
+		}
+		
+		return sum;
 	}
 
 }

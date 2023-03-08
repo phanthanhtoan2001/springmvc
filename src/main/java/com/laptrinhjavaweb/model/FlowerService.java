@@ -208,6 +208,7 @@ public class FlowerService {
 //					System.out.println(edited);
 //					System.out.println(flower);
 //					coll.update(dbfindupdate, edited);
+					
 					flower.setName(utf8(flowername));
 					add(flower);
 					return flower;
