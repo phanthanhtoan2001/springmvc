@@ -38,7 +38,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-
+import java.text.SimpleDateFormat;  
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -179,7 +179,7 @@ public class AdminController {
 				bill.setMethod(dbObject.get("payment_method").toString());
 				bill.setOrderid(dbObject.get("orderid").toString());
 				bill.setNote(dbObject.get("note").toString());
-				bill.setDate((Date) dbObject.get("datebuy"));
+				bill.setDate((Date)dbObject.get("datebuy"));
 				bill_list.add(bill);
 			}
 			model.addAttribute("list_bill", bill_list);

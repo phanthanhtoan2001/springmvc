@@ -225,8 +225,10 @@ body a {
 					style : 'currency',
 					currency : 'VND'
 				});
+				
 				document.getElementById("price").innerHTML = formattedNumbers;
 			</script>
+			
 		</table>
 	</div>
 
