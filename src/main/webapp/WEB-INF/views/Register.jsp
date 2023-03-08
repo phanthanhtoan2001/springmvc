@@ -89,7 +89,22 @@
 						<input class="input100" type="text" name="username"> <span
 							class="focus-input100"></span>
 					</div>
-					
+					<div class="p-t-31 p-b-9">
+						<span class="txt1"> Địa chỉ </span>
+					</div>
+					<div class="wrap-input100 validate-input"
+						data-validate="address is required">
+						<input class="input100" type="text" name="address"> <span
+							class="focus-input100"></span>
+					</div>
+					<div class="p-t-31 p-b-9">
+						<span class="txt1"> Số điện thoại </span>
+					</div>
+					<div class="wrap-input100 validate-input"
+						data-validate=""phonenum" is required">
+						<input class="input100" type="text" name="phonenum"> <span
+							class="focus-input100"></span>
+					</div>
 					<div class="p-t-31 p-b-9">
 						<span style="color: #ff0000; font-size: 16px;" class="txt1">
 							${error} </span>

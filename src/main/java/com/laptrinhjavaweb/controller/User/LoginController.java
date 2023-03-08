@@ -134,7 +134,6 @@ public class LoginController {
 		User u = new User();
 		String md5Hex = DigestUtils.md5Hex(password).toUpperCase();
 		try {
-			
 
 			DBObject where_query = new BasicDBObject();
 			where_query.put("password", md5Hex);
@@ -148,7 +147,7 @@ public class LoginController {
 			u.setPassword(dbo.get("password").toString());
 			u.setAddress(dbo.get("address").toString());
 			u.setPhonenum(dbo.get("phonenum").toString());
-			
+
 		} catch (Exception e) {
 			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
 			modelMap.put("error", "Không tồn tại Email này trong hệ thống hoặc Sai tài khoản hoặc mật khẩu !");
@@ -179,10 +178,11 @@ public class LoginController {
 
 	@RequestMapping(value = "regis", method = RequestMethod.POST)
 	public String processRegistration(@RequestParam("username") String username,
-			@RequestParam("password") String password, @RequestParam("email") String email, Map<String, Object> model,
-			ModelMap modelMap) {
+			@RequestParam("password") String password, @RequestParam("email") String email,
+			@RequestParam("address") String address, Map<String, Object> model,
+			@RequestParam("phonenum") String phonenum, ModelMap modelMap) {
 		User u = new User();
-		
+
 		// implement your own registration logic here...
 		try {
 
@@ -200,7 +200,9 @@ public class LoginController {
 			// get id add
 			modelMap.put("error", "Đã tồn tại email hoặc tài khoản này trong hệ thống!");
 		} catch (Exception e) {
-			if (!username.toString().isEmpty() || !password.toString().isEmpty() || !email.toString().isEmpty()) {
+			if (!username.toString().isEmpty() || !password.toString().isEmpty() || !email.toString().isEmpty()
+					|| !address.toString().isEmpty() || !phonenum.toString().isEmpty()) {
+
 				String md5Hex = DigestUtils.md5Hex(password).toUpperCase();
 				String id = "";
 				DBCursor cursor = coll_user.find();
@@ -216,8 +218,8 @@ public class LoginController {
 				doc.put("password", md5Hex);
 				doc.put("roles", "customer");
 				doc.put("email", email.toString());
-				doc.put("address", "Cap nhat");
-				doc.put("phonenum", "0123456789");
+				doc.put("address", address.toString());
+				doc.put("phonenum", phonenum.toString());
 				// Save a new user to the mongo collection.
 				coll_user.insert(doc);
 				return "login";
