@@ -89,43 +89,11 @@ public class FlowerService {
 			// Adding the user details to the list.
 
 		}
-<<<<<<< HEAD
-	   public static Boolean add(Flower flower) {
-	        boolean output = false;
-	        try {
-	            //DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
-	        	
-	        	
-	            // Create a new object and add the new user details to this object.
-	        	DBObject  doc = new BasicDBObject();
-	            doc.put("flowerid", flower.getFlowerid());
-	            doc.put("name", utf8(flower.getName()));
-	            doc.put("description", utf8(flower.getDescription()));
-	            doc.put("price", flower.getPrice());
-	            doc.put("image", flower.getUrl());    
-	            //
-	          
-	           // System.out.print(flower.getName());
-	            //
-	            
-	            doc.put("stock", flower.getStock()); 
-	            //System.out.print(doc);
-	            coll.insert(doc);
-	            output = true;
-	        } catch (Exception e) {
-	            output = false;
-	            log.error("An error occurred while saving a new user to the mongo database", e);
-	        }
-	        return output;
-	    }
-	
-	  public static String generatemaxid() {
-			 List<Flower> flower_list = getAll();
-=======
+
 		log.debug("Total records fetched from the mongo database are= " + flower_list.size());
 		return flower_list;
 	}
->>>>>>> daeb89f045e8ad769074521a311b06eea142abe8
+
 
 	public static String utf8(String temp) throws UnsupportedEncodingException {
 
