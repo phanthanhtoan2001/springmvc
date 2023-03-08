@@ -78,6 +78,7 @@ public class PaymentController {
 			order.setUserid(a.getId());
 			order.setShipaddress(a.getAddress());	
 			OrderService.add(order);
+			FlowerService.quantityreduce(item.getFlower().getFlowerid(), item.getQuantity());
 		}
 		Bill bill = new Bill();
 		bill.setBillid(BillService.generatemaxid());
@@ -113,6 +114,7 @@ public class PaymentController {
 			order.setUserid(a.getId());
 			order.setShipaddress(add1);	
 			OrderService.add(order);
+			FlowerService.quantityreduce(item.getFlower().getFlowerid(), item.getQuantity());
 		}
 		Bill bill = new Bill();
 		bill.setBillid(BillService.generatemaxid());
