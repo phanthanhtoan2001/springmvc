@@ -59,7 +59,7 @@
 							<div class="icon">
 								<i class="ion ion-stats-bars"></i>
 							</div>
-							<a href="#" class="small-box-footer">Xem thêm <i
+							<a href="${pageContext.request.contextPath }/admin/flowerindex" class="small-box-footer">Xem thêm <i
 								class="fas fa-arrow-circle-right"></i></a>
 						</div>
 					</div>
@@ -96,8 +96,8 @@
 							<div class="icon">
 								<i class="ion ion-pie-graph"></i>
 							</div>
-							<a href="#" class="small-box-footer">Xem thêm <i
-								class="fas fa-arrow-circle-right"></i></a>
+							<a href="#" class="small-box-footer">  ㅤ <!-- <i
+								class="fas fa-arrow-circle-right"></i> --></a>
 						</div>
 					</div>
 					<!-- ./col -->

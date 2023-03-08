@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,32 +49,30 @@ public class AdminController {
 	DBCollection coll_bill = MongoFactory.getCollection("dbwebflower", "Bill");
 	DBCollection coll_order = MongoFactory.getCollection("dbwebflower", "Order");
 	DBCollection coll_flower = MongoFactory.getCollection("dbwebflower", "Flowers");
-	
+
 	// Displaying the initial users list.
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public String getPersons(Model model, HttpSession session) {
-		
-		//return "/admin/Layout_Admin/index_admin";
-		//setModelLoad(model);
+
+		// return "/admin/Layout_Admin/index_admin";
+		// setModelLoad(model);
 		User temp = (User) session.getAttribute("loginsession");
-		if(temp != null) {
-			if( temp.getRoles().contains("admin"))
-			{
+		if (temp != null) {
+			if (temp.getRoles().contains("admin")) {
 				setModelLoad(model);
 				return "/admin/Layout_Admin/index_admin";
-			}else 
+			} else
+				return "/login";
+		} else
 			return "/login";
-		}else return "/login";
-	}	
-	
+	}
 
 	@RequestMapping(value = "/customer", method = RequestMethod.GET)
 	public String getcustomer(Model model) {
 
 		try {
-			
+
 			List user_list = new ArrayList();
-		
 
 			DBCursor cursor = coll_user.find();
 			while (cursor.hasNext()) {
@@ -87,14 +86,14 @@ public class AdminController {
 					user.setRoles("Khách hàng");
 				} else {
 					user.setRoles("Quản lý");
-					user.setRoles(dbObject.get("roles").toString());
-					user.setEmail(dbObject.get("email").toString());
-					user.setAddress(dbObject.get("address").toString());
-					user.setPhonenum(dbObject.get("phonenum").toString());
-					// Adding the user details to the list.
-					user_list.add(user);
-
 				}
+				// user.setRoles(dbObject.get("roles").toString());
+				user.setEmail(dbObject.get("email").toString());
+				user.setAddress(dbObject.get("address").toString());
+				user.setPhonenum(dbObject.get("phonenum").toString());
+				// Adding the user details to the list.
+				user_list.add(user);
+
 			}
 			model.addAttribute("list_customer", user_list);
 		} catch (Exception e) {
@@ -109,14 +108,14 @@ public class AdminController {
 
 	@RequestMapping(value = "/customer", method = RequestMethod.POST)
 	public String getcustomer(Model model, @RequestParam("searchemail") String searchemail) {
-		
+
 		List user_list = new ArrayList();
 		try {
-			
+
 			DBObject where_query = new BasicDBObject();
 			where_query.put("email", Pattern.compile(searchemail.toString()));
 			DBCursor cursor = coll_user.find(where_query);
-			//System.out.print(cursor);
+			// System.out.print(cursor);
 			if (cursor == null) {
 
 				User user = new User();
@@ -143,13 +142,13 @@ public class AdminController {
 						user.setRoles("Khách hàng");
 					} else {
 						user.setRoles("Quản lý");
-						user.setRoles(dbObject.get("roles").toString());
-						user.setEmail(dbObject.get("email").toString());
-						user.setAddress(dbObject.get("address").toString());
-						user.setPhonenum(dbObject.get("phonenum").toString());
-						// Adding the user details to the list.
-						user_list.add(user);
 					}
+					// user.setRoles(dbObject.get("roles").toString());
+					user.setEmail(dbObject.get("email").toString());
+					user.setAddress(dbObject.get("address").toString());
+					user.setPhonenum(dbObject.get("phonenum").toString());
+					// Adding the user details to the list.
+					user_list.add(user);
 
 				}
 			}
@@ -166,9 +165,8 @@ public class AdminController {
 	public String getbill(Model model) {
 
 		try {
-			
+
 			List bill_list = new ArrayList();
-			
 
 			DBCursor cursor = coll_bill.find();
 			while (cursor.hasNext()) {
@@ -194,10 +192,10 @@ public class AdminController {
 
 	@RequestMapping(value = "/bill", method = RequestMethod.POST)
 	public String getbill(Model model, @RequestParam("searchemail") String searchemail) {
-		
+
 		List bill_list = new ArrayList();
 		try {
-		
+
 			DBObject where_query = new BasicDBObject();
 			where_query.put("billid", Pattern.compile(searchemail.toString()));
 			DBCursor cursor = coll_bill.find(where_query);
@@ -248,14 +246,14 @@ public class AdminController {
 				Billorder_list.add(order);
 			}
 		}
-		for(Flower flower: flower_list) {
+		for (Flower flower : flower_list) {
 			for (Order order : Billorder_list) {
 				if (flower.getFlowerid().equals(order.getFlowerid())) {
 					cart.add(new Item(FlowerService.find(flower.getFlowerid()), order.getQuantity()));
 				}
 			}
 		}
-		
+
 		User user = UserService.find(Billorder_list.get(0).getUserid().toString());
 		session.setAttribute("cart", cart);
 		model.addAttribute("user", user);
@@ -267,18 +265,19 @@ public class AdminController {
 
 	public void setModelLoad(Model model) {
 		try {
-			//System.out.println("Run set model load");
-			//DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
+			// System.out.println("Run set model load");
+			// DBCollection colls = MongoFactory.getCollection(db_name, db_collection);
 			Integer billcount = coll_bill.find().count();
 //////////////////////////////////////////////////////////////////////////
-			//DBCollection coll = MongoFactory.getCollection("dbwebflower", "User");
+			// DBCollection coll = MongoFactory.getCollection("dbwebflower", "User");
 			Integer customercount = coll_user.find().count();
 //////////////////////////////////////////////////////////////////////////
 			Date today = new Date(); // get the current date
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String currentDate = dateFormat.format(today); // convert the date to a string in the desired format
 
-			//DBCollection newordertoday = MongoFactory.getCollection("dbwebflower", "Bill");
+			// DBCollection newordertoday = MongoFactory.getCollection("dbwebflower",
+			// "Bill");
 
 			// Set the fromDate.
 			Date fromDate = dateFormat.parse(currentDate);
@@ -292,7 +291,7 @@ public class AdminController {
 			DBObject where_query = new BasicDBObject();
 			where_query.put("datebuy", new BasicDBObject("$gte", fromDate).append("$lte", toDate));
 			// where_query.put("datebuy", new BasicDBObject("$lte", toDate));
-			//System.out.print(fromDate.toString() + "/" + toDate.toString());
+			// System.out.print(fromDate.toString() + "/" + toDate.toString());
 			Integer newordertodaycount = coll_bill.find(where_query).count();
 			// System.out.print("sads"+newordertodaycount);
 //////////////////////////////////////////////////////////////////////////
@@ -303,7 +302,7 @@ public class AdminController {
 			// fromfirstdateofweek
 			call.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
 			Date startDate = call.getTime();
-			//DBCollection newOrders = MongoFactory.getCollection("dbwebflower", "Bill");
+			// DBCollection newOrders = MongoFactory.getCollection("dbwebflower", "Bill");
 
 			DBObject query = new BasicDBObject();
 			query.put("datebuy", new BasicDBObject("$gte", startDate).append("$lte", endDate));
@@ -323,13 +322,14 @@ public class AdminController {
 			DBObject limit = new BasicDBObject("$limit", 5);
 
 			// get the 'Order' collection from 'dbwebflower'
-			//DBCollection orderCollection = MongoFactory.getCollection("dbwebflower", "Order");
+			// DBCollection orderCollection = MongoFactory.getCollection("dbwebflower",
+			// "Order");
 
 			AggregationOutput output = coll_order.aggregate(group, sort, limit);
 			int idflower = 1;
 			for (DBObject result : output.results()) {
 				if (result != null) {
-					
+
 					BasicDBObject whereQuery = new BasicDBObject();
 					whereQuery.put("flowerid", result.get("_id"));
 					DBCursor cursor = coll_flower.find(whereQuery);
@@ -344,7 +344,6 @@ public class AdminController {
 				}
 			}
 //////////////////////////////////////////////////////////////////////////
-			
 
 			DBObject querys = new BasicDBObject("stock", new BasicDBObject("$lte", 10));
 			Integer countoutstock = coll_flower.find(querys).count();
@@ -362,37 +361,168 @@ public class AdminController {
 
 		}
 	}
+
 //////////////////////////////////CRUD FLOWER //////////////////////
 	@RequestMapping(value = "/flowercreate", method = RequestMethod.GET)
 	public String createflower(Model model) {
 
-				return "/admin/Layout_Admin/flower_create";
+		return "/admin/Layout_Admin/flower_create";
 	}
+
 	@RequestMapping(value = "/flowercreate", method = RequestMethod.POST)
 	public String createflower(Model model, HttpServletRequest request) {
-		
+
 		String flowername = request.getParameter("flowername");
 		String flowerprice = request.getParameter("flowerprice");
 		String flowerstock = request.getParameter("flowerstock");
 		String flowersdecrip = request.getParameter("flowersdecrip");
 		String image = request.getParameter("geturlcloud");
 		String flowerid = "";
-		if(!flowername.isEmpty() ||!flowerprice.isEmpty() ||!flowerstock.isEmpty()) {
+		if (!flowername.isEmpty() || !flowerprice.isEmpty() || !flowerstock.isEmpty()) {
 			flowerid = FlowerService.generatemaxid();
-			//System.out.print(flowerid +"/"+flowername + "/" + flowerprice+ "/" + flowerstock +"/"+image );
+			// System.out.print(flowerid +"/"+flowername + "/" + flowerprice+ "/" +
+			// flowerstock +"/"+image );
 			Flower flower = new Flower();
 			flower.setFlowerid(FlowerService.generatemaxid());
-		    flower.setName(flowername);
-		    flower.setDescription(flowersdecrip);
-		    flower.setPrice(Integer.parseInt(flowerprice));
-		    flower.setUrl(image);
-		    flower.setStock(Integer.parseInt(flowerstock));
-		    FlowerService.add(flower);
+			flower.setName(flowername);
+			flower.setDescription(flowersdecrip);
+			flower.setPrice(Double.parseDouble(flowerprice));
+			flower.setUrl(image);
+			flower.setStock(Integer.parseInt(flowerstock));
+			FlowerService.add(flower);
 		}
-		
-		
-
-
 		return "/admin/Layout_Admin/Bill_index";
 	}
+
+	@RequestMapping(value = "/flowerindex", method = RequestMethod.GET)
+	public String flowerindex(Model model) {
+
+		try {
+
+			List flower_list = new ArrayList();
+
+			DBCursor cursor = coll_flower.find();
+			while (cursor.hasNext()) {
+				DBObject dbObject = cursor.next();
+
+				Flower flower = new Flower();
+				flower.setFlowerid(dbObject.get("flowerid").toString());
+				flower.setName(dbObject.get("name").toString());
+				flower.setDescription(dbObject.get("description").toString());
+				flower.setPrice(Double.parseDouble(dbObject.get("price").toString()));
+				flower.setUrl(dbObject.get("image").toString());
+				flower.setStock(Integer.parseInt(dbObject.get("stock").toString()));
+				// Adding the user details to the list.
+				flower_list.add(flower);
+
+			}
+			model.addAttribute("list_flower", flower_list);
+		} catch (Exception e) {
+			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
+			model.addAttribute("list_flower", null);
+
+			return "login";
+		}
+
+		return "/admin/Layout_Admin/flower_index";
+	}
+
+	@RequestMapping(value = "/flowerindex", method = RequestMethod.POST)
+	public String flowerindexs(Model model, @RequestParam("searchname") String searchname) {
+
+		List flower_list = new ArrayList();
+		try {
+
+			DBObject where_query = new BasicDBObject();
+			where_query.put("name", Pattern.compile(searchname.toString()));
+			DBCursor cursor = coll_flower.find(where_query);
+
+			// System.out.print(cursor);
+			if (cursor == null) {
+
+				Flower flower = new Flower();
+				flower.setFlowerid("Không tìm thấy");
+				flower.setName("Không tìm thấy");
+				flower.setDescription("Không tìm thấy");
+				flower.setPrice(0);
+				flower.setUrl("Không tìm thấy");
+				flower.setStock(0);
+
+				// Adding the user details to the list.
+				flower_list.add(flower);
+
+			} else {
+				while (cursor.hasNext()) {
+					DBObject dbObject = cursor.next();
+
+					Flower flower = new Flower();
+					flower.setFlowerid(dbObject.get("flowerid").toString());
+					flower.setName(dbObject.get("name").toString());
+					flower.setDescription(dbObject.get("description").toString());
+					flower.setPrice(Double.parseDouble(dbObject.get("price").toString()));
+					flower.setUrl(dbObject.get("image").toString());
+					flower.setStock(Integer.parseInt(dbObject.get("stock").toString()));
+					// Adding the user details to the list.
+					flower_list.add(flower);
+
+				}
+			}
+			model.addAttribute("list_flower", flower_list);
+		} catch (Exception e) {
+			/* modelMap.put("toastshow", "Đăng nhập không thành công!"); */
+
+		}
+
+		return "/admin/Layout_Admin/flower_index";
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public String update(@RequestParam("id") String id, Model model, HttpSession session) {
+		try {
+			DBObject where_query = new BasicDBObject();
+			where_query.put("flowerid", id);
+			DBObject dbObject = coll_flower.findOne(where_query);
+			Flower flower = new Flower();
+			flower.setFlowerid(dbObject.get("flowerid").toString());
+			flower.setName(dbObject.get("name").toString());
+			flower.setDescription(dbObject.get("description").toString());
+			flower.setPrice(Double.parseDouble(dbObject.get("price").toString()));
+			flower.setUrl(dbObject.get("image").toString());
+			flower.setStock(Integer.parseInt(dbObject.get("stock").toString()));
+			System.out.print(flower.getName());
+			model.addAttribute("flowerUpdate", flower);
+		} catch (Exception ex) {
+		}
+
+		return "/admin/Layout_Admin/flower_update";
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String updateflower(Model model, HttpServletRequest request, HttpSession session) {
+		try {
+			String flowername = request.getParameter("flowername");
+			String flowerprice = request.getParameter("flowerprice");
+			String flowerstock = request.getParameter("flowerstock");
+			String flowersdecrip = request.getParameter("flowersdecrip");
+			String image = request.getParameter("geturlcloud");
+			String flowerid = request.getParameter("flowerid");
+			// System.out.print(flowerid + flowername +flowerstock+flowersdecrip+image);
+			DBObject where_query = new BasicDBObject();
+			where_query.put("flowerid", flowerid);
+			DBObject dbfindupdate = coll_flower.findOne(where_query);
+			BasicDBObject edited = new BasicDBObject();
+			edited.put("flowerid", flowerid);
+			edited.put("name", FlowerService.utf8(flowername));
+			edited.put("description", FlowerService.utf8(flowersdecrip));
+			edited.put("price", Double.parseDouble(flowerprice));
+			edited.put("image", image);
+			edited.put("stock", Integer.parseInt(flowerstock));
+			coll_flower.update(dbfindupdate, edited);
+
+		} catch (Exception ex) {
+		}
+
+		return "redirect:/admin/flowerindex";
+	}
+
 }
