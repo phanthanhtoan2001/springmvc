@@ -54,6 +54,8 @@ public class UserService {
 
             // Create a new object and add the new user details to this object.
             BasicDBObject doc = new BasicDBObject();
+            
+           
             doc.put("id", user.getEmail());
             doc.put("name", user.getName());
             doc.put("address", user.getAddress());
@@ -84,6 +86,9 @@ public class UserService {
             BasicDBObject edited = new BasicDBObject();
             edited.put("id", user.getId());
             edited.put("name", user.getName());
+            edited.put("address", user.getAddress());
+            edited.put("phonenum", user.getPhonenum());
+            edited.put("email", user.getEmail());
 
             // Update the existing user to the mongo database.
             coll.update(existing, edited);
@@ -139,6 +144,10 @@ public class UserService {
         DBObject dbo = coll.findOne(where_query);
         u.setId(dbo.get("id").toString());
         u.setName(dbo.get("name").toString());
+        u.setPhonenum(dbo.get("phonenum").toString());
+        u.setAddress(dbo.get("address").toString());
+        u.setEmail(dbo.get("email").toString());
+        u.setPassword(dbo.get("password").toString());
 
         // Return user object.
         return u;
