@@ -126,6 +126,36 @@ public class FlowerService {
 		}
 		return output;
 	}
+	
+	
+	public static Boolean update(Flower flower) {
+		boolean output = false;
+		try {
+			// DBCollection coll = MongoFactory.getCollection(db_name, db_collection);
+
+			// Create a new object and add the new user details to this object.
+			DBObject doc = new BasicDBObject();
+			doc.put("flowerid", flower.getFlowerid());
+			doc.put("name", utf8(flower.getName()));
+			doc.put("description", utf8(flower.getDescription()));
+			doc.put("price", flower.getPrice());
+			doc.put("image", flower.getUrl());
+			//
+
+			// System.out.print(flower.getName());
+			//
+
+			doc.put("stock", flower.getStock());
+			System.out.print(doc);
+			coll.insert(doc);
+			output = true;
+		} catch (Exception e) {
+			output = false;
+			log.error("An error occurred while saving a new user to the mongo database", e);
+		}
+		return output;
+	}
+
 
 	public static String generatemaxid() {
 		List<Flower> flower_list = getAll();
@@ -153,23 +183,31 @@ public class FlowerService {
 	public static Flower quantityreduce(String id, int reduce) {
 		List<Flower> flower_list = getAll();
 
-		DBObject where_query = new BasicDBObject();
-		where_query.put("flowerid", id);
-		DBObject dbo = coll.findOne(where_query);
 		for (Flower flower : flower_list) {
 			if (flower.getFlowerid().equals(id)) {
 				flower.setStock(flower.getStock() - reduce);
-				try {
-
-					BasicDBObject edited = new BasicDBObject();
-					edited.put("flowerid", flower.getFlowerid());
-					edited.put("name", FlowerService.utf8(flower.getName()));
-					edited.put("description", FlowerService.utf8(flower.getDescription()));
-					edited.put("price", flower.getPrice());
-					edited.put("image", flower.getUrl());
-					edited.put("stock", flower.getStock());
-					System.out.print(edited.get("name"));
-					coll.update(dbo, edited);
+				
+				String flowername = flower.getName().toString();
+				
+				
+				try {		
+//					DBObject where_query = new BasicDBObject();
+//					where_query.put("flowerid", id);
+//					DBObject dbfindupdate = coll.findOne(where_query);
+//					BasicDBObject edited = new BasicDBObject();
+//					edited.put("flowerid", flower.getFlowerid());
+//					edited.put("name", utf8(flowername));
+//					edited.put("description", utf8(flower.getDescription()));
+//					edited.put("price", flower.getPrice());
+//					edited.put("image", flower.getUrl());
+//					edited.put("stock", flower.stock); 
+//					System.out.println(utf8(flowername));
+//					System.out.println(flowername);
+//					System.out.println(edited);
+//					System.out.println(flower);
+//					coll.update(dbfindupdate, edited);
+					flower.setName(utf8(flowername));
+					add(flower);
 					return flower;
 				} catch (Exception e) {
 					log.error("An error occurred while saving a new user to the mongo database", e);

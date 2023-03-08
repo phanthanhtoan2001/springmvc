@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!doctype html>
 <html lang="vi">
 <head>
@@ -74,7 +76,13 @@
 							<div>
 								<h6 class="my-0">${item.flower.name }x${item.quantity}</h6>
 								<small class="text-muted">Brief description</small>
-							</div> <span class="text-muted">&euro; ${item.flower.price * item.quantity }</span>
+							</div> <span class="text-muted">
+							 <fmt:formatNumber type = "number"
+       pattern = "#,##0"  value = "${item.flower.price * item.quantity }" /> VNĐ
+							
+							
+							
+							</span>
 						</li>
 					</c:forEach>
 					<li class="list-group-item d-flex justify-content-between bg-light">
@@ -82,10 +90,19 @@
 							<c:set var="discount" value="0"></c:set>
 							<h6 class="my-0">Mã giảm giá</h6>
 							<small>EXAMPLECODE</small>
-						</div> <span class="text-success">&euro; - ${discount }</span>
+						</div> <span class="text-success">
+						 - <fmt:formatNumber type = "number"
+       pattern = "#,##0"  value = "${discount }" /> VNĐ
+						
+						</span>
 					</li>
 					<li class="list-group-item d-flex justify-content-between"><span>Tổng
-							</span> <strong>&euro; ${total }</strong></li>
+							</span> <strong>
+							
+							
+							 <fmt:formatNumber type = "number"
+       pattern = "#,##0"  value = "${total }" /> VNĐ
+							</strong></li>
 				</ul>
 
 				<form class="card p-2">
