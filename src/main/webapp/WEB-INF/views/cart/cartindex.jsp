@@ -18,6 +18,13 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Giỏ hàng</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css"
+	rel="stylesheet" />
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <%@include file="/WEB-INF/views/user/headerpreminum.jsp"%>
 </head>
 
@@ -142,7 +149,7 @@
 							VNĐ
 						</div>
 					</div>
-					<a href="${pageContext.request.contextPath }/payment" class="btn" style=" background-color: #000;
+					<a href="${pageContext.request.contextPath }/payment" class="btn" id="payment" style=" background-color: #000;
     border-color: #000;
     color: white;
     width: 100%;

@@ -36,6 +36,9 @@ public class PaymentController {
 	public String index(HttpSession session) {
 		if(session.getAttribute("loginsession") == null)
 			return "login";
+		List<Item> cart = (List<Item>) session.getAttribute("cart");
+		if(cart == null )
+			return "redirect:/user/login";
 		return "payment/payment";
 	}
 
@@ -91,8 +94,8 @@ public class PaymentController {
 		bill.setNote("");
 		bill.setOrderid(orderid);
 		BillService.add(bill);
-
-		return "payment/checkout";
+		session.setAttribute("cart", null);
+		return "redirect:/flower/list";
 	}
 
 	@RequestMapping(value = "/checkout")
@@ -127,8 +130,9 @@ public class PaymentController {
 		bill.setNote("");
 		bill.setOrderid(orderid);
 		BillService.add(bill);
+		session.setAttribute("cart", null);
 
-		return "payment/checkout";
+		return "redirect:/flower/list";
 	}
 	
 	

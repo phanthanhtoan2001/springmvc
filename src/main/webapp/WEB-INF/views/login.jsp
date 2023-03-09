@@ -105,7 +105,7 @@
 					<div class="w-full text-center p-t-55">
 						<span class="txt2"> Đăng </span> <a
 							href="${pageContext.request.contextPath }/user/regis"
-							class="txt2 bo1">  ký ngay </a>
+							class="txt2 bo1"> ký ngay </a>
 					</div>
 				</form>
 			</div>
