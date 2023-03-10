@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -102,6 +103,25 @@ public class CartController {
 		List<Item> cart = (List<Item>) session.getAttribute("cart");
 		cart.removeAll(cart);
 		session.setAttribute("cart", cart);
+		return "redirect:/cart/index";
+	}
+	
+	
+	@RequestMapping(value = "/coupon}", method = RequestMethod.GET)
+	public String coupon(HttpSession session, HttpServletRequest request, Model model) {
+//		List flower_list = FlowerService.getAll();
+		List<Coupon> coupon_list = CouponService.getAll();
+		String code = request.getParameter("code");
+		if(!code.equals("")) {
+			for(Coupon coupon: coupon_list ) {
+				if(code == coupon.getCoupon()) {
+					session.setAttribute("coupon", coupon);
+					return "payment/checkout";
+				}
+			}
+		}
+		
+		 model.addAttribute("message", "bạn đã nhập sai mã giảm giá");
 		return "redirect:/cart/index";
 	}
 }

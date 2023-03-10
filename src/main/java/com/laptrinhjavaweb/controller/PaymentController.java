@@ -36,18 +36,24 @@ public class PaymentController {
 	public String index(HttpSession session) {
 		if(session.getAttribute("loginsession") == null)
 			return "login";
+		List<Item> cart = (List<Item>) session.getAttribute("cart");
+		if(cart == null )
+			return "redirect:/user/login";
 		return "payment/payment";
 	}
 
 	@RequestMapping(value = "/paymentmomo", method = RequestMethod.GET)
 	public String payment(Model model, HttpSession session, HttpServletRequest request) throws Exception {
 		//
+		List<Item> cart = (List<Item>) session.getAttribute("cart");
 		LogUtils.init();
 		String requestId = String.valueOf(System.currentTimeMillis());
 		String orderId = String.valueOf(System.currentTimeMillis());
 		Long transId = 2L;
-		long amount = 2000;
-
+		long amount = money(session);
+		
+		
+		
 		String partnerClientId = "partnerClientId";
 		String orderInfo = "Pay Withasdasdasd MoMo";
 		String returnURL = "http://localhost:8088/java-web/payment/confirmmomo";
@@ -78,6 +84,7 @@ public class PaymentController {
 			order.setUserid(a.getId());
 			order.setShipaddress(a.getAddress());	
 			OrderService.add(order);
+			FlowerService.quantityreduce(item.getFlower().getFlowerid(), item.getQuantity());
 		}
 		Bill bill = new Bill();
 		bill.setBillid(BillService.generatemaxid());
@@ -87,8 +94,8 @@ public class PaymentController {
 		bill.setNote("");
 		bill.setOrderid(orderid);
 		BillService.add(bill);
-
-		return "payment/checkout";
+		session.setAttribute("cart", null);
+		return "redirect:/flower/list";
 	}
 
 	@RequestMapping(value = "/checkout")
@@ -113,6 +120,7 @@ public class PaymentController {
 			order.setUserid(a.getId());
 			order.setShipaddress(add1);	
 			OrderService.add(order);
+			FlowerService.quantityreduce(item.getFlower().getFlowerid(), item.getQuantity());
 		}
 		Bill bill = new Bill();
 		bill.setBillid(BillService.generatemaxid());
@@ -122,8 +130,20 @@ public class PaymentController {
 		bill.setNote("");
 		bill.setOrderid(orderid);
 		BillService.add(bill);
+		session.setAttribute("cart", null);
 
-		return "payment/checkout";
+		return "redirect:/flower/list";
+	}
+	
+	
+	public int money(HttpSession session) {
+		List<Item> cart = (List<Item>) session.getAttribute("cart");
+		 int sum = 0;
+		for (Item item : cart){
+			sum += item.getQuantity() * item.getFlower().getPrice();
+		}
+		
+		return sum;
 	}
 
 }

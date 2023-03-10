@@ -24,6 +24,10 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
+=======
+
+>>>>>>> cadd5eb7c76cacd07bbb239b62c55db7b95b4b3c
 	<classpathentry kind="src" path="target/generated-sources/annotations">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -35,5 +39,9 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
+=======
+
+>>>>>>> cadd5eb7c76cacd07bbb239b62c55db7b95b4b3c
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,11 +1,27 @@
 package com.laptrinhjavaweb.model;
 
 import java.io.Serializable;
+import java.sql.Array;
 
 public class Flower implements Serializable {
     private static final long serialVersionUID = 1L;
     
-    private String flowerid, name, color, description, url;
+    public Array getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(Array category) {
+		this.category = category;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	private String flowerid, name, color, description, url;
+    private Array category;
 	int  stock;
 	double price;
     public double getPrice() {
@@ -34,7 +50,7 @@ public class Flower implements Serializable {
     }
     
     
-    public Flower(String flowerid,String name,String color,String description,String url, int price, int stock){
+    public Flower(String flowerid,String name,String color,String description,String url, int price, int stock, Array category){
     	super();
     	this.flowerid = flowerid;
     	this.name = name;
@@ -43,6 +59,7 @@ public class Flower implements Serializable {
     	this.url = url;
     	this.price = price;
     	this.stock = stock;
+    	this.category = category;
     }
 
 	public String getFlowerid() {

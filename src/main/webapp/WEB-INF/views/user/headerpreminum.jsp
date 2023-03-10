@@ -67,7 +67,13 @@
 <c:url var="slickJsUrl"
 	value="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" />
 <script type="text/javascript" src="${slickJsUrl}"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css"
+	rel="stylesheet" />
 
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 <style>
 .pagination li a {
 	color: #495057;
@@ -95,7 +101,8 @@
 
 <body>
 
-	<header class="header-top bg-grey justify-content-center">
+	<header class="header-top bg-grey justify-content-center" style="    margin-bottom: 100px;
+	">
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-2 col-md-4 text-center d-none d-lg-block">
@@ -118,8 +125,7 @@
 									id="navbarDropdown" role="button" data-toggle="dropdown"
 									aria-haspopup="true" aria-expanded="false"> Trang chủ </a></li>
 								<li class="nav-item dropdown"><a
-									class="nav-link dropdown-toggle" 
-									href="${pageContext.request.contextPath}/flower/inforshop" id="navbarDropdown2"
+									class="nav-link dropdown-toggle" href="#" id="navbarDropdown2"
 									role="button" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false"> Giới thiệu </a></li>
 
@@ -145,13 +151,13 @@
 						</div>
 					</nav>
 				</div>
-
+			
 				<div class="col-lg-2 col-md-4 col-6">
 					<div class="header-socials-2 text-right d-none d-lg-block">
 						<ul class="list-inline mb-0">
 							<%
 							User temp = (User) session.getAttribute("loginsession");
-
+							
 							if (temp == null) {
 							%>
 							<li class="list-inline-item"><a
@@ -169,7 +175,7 @@
 
 							%>
 							<li class="list-inline-item"><a
-								href="${pageContext.request.contextPath }/user/updateinfor?id=<%=temp.getId()%>"><%=temp.getName()%>
+								href="${pageContext.request.contextPath }/user/edit?id=<%=temp.getId()%>"><%=temp.getName()%>
 							</a></li>
 
 							<%
@@ -187,57 +193,6 @@
 
 	<!--------------------------------------->
 
-
-	<div class="slider">
-		>
-		<div>
-			<img
-				src="https://res.cloudinary.com/ddt8drwas/image/upload/v1677564085/07_l_cr0m9m.jpg">
-		</div>
-		<div>
-			<img
-				src="https://res.cloudinary.com/ddt8drwas/image/upload/v1677564085/04_l_fnzeui.jpg">
-		</div>
-		<div>
-			<img
-				src="https://res.cloudinary.com/ddt8drwas/image/upload/v1677564085/image_01_l_t32ugb.jpg">
-		</div>
-		<div>
-			<img
-				src="https://res.cloudinary.com/ddt8drwas/image/upload/v1677564084/02_l_p0hv0k.jpg">
-		</div>
-		<div>
-			<img
-				src="https://res.cloudinary.com/ddt8drwas/image/upload/v1677564085/05_l_ehrmbg.jpg">
-		</div>
-
-	</div>
-
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('.slider').slick({
-				autoplay : true,
-				autoplaySpeed : 1000,
-				arrows : false,
-				dots : false,
-				slidesToShow : 3,
-				slidesToScroll : 1,
-				centerMode : true,
-				centerPadding : '0px',
-				responsive : [ {
-					breakpoint : 992,
-					settings : {
-						slidesToShow : 2
-					}
-				}, {
-					breakpoint : 768,
-					settings : {
-						slidesToShow : 1
-					}
-				} ]
-			});
-		});
-	</script>
 
 	<!--------------------------------------->
 
