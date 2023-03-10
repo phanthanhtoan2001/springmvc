@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/webapp/WEB-INF/views/inforshop.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/payment/checkout.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/payment/payment.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/user/layoutshare.jsp=UTF-8

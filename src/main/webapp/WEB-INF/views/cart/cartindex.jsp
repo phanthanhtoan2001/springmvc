@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.laptrinhjavaweb.model.User"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
 <link href="<c:url value="/resources/css/cartindex.css" />"
@@ -15,6 +17,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Giỏ hàng</title>
 </head>
+
 <body>
 	<div class="card">
 		<div class="row">
@@ -39,7 +42,7 @@
 						<div class="row main align-items-center">
 							<hr>
 							<div class="col-2">
-								<img class="img-fluid" src="https://i.imgur.com/1GrakTl.jpg">
+								<img class="img-fluid" src="${item.flower.url }">
 							</div>
 							<div class="col">
 								<div class="row text-muted">${item.flower.flowerid }</div>
@@ -52,7 +55,11 @@
 									href="${pageContext.request.contextPath }/cart/update/${item.flower.flowerid }/PLUS">+</a>
 							</div>
 							<div class="col">
-								&euro; ${item.flower.price * item.quantity } <span><a
+							 <fmt:formatNumber type = "number"
+       pattern = "#,##0"  value = "${item.flower.price * item.quantity }" /> VNĐ
+							
+							
+							  <span><a
 									href="${pageContext.request.contextPath }/cart/remove/${item.flower.flowerid }"
 									onclick="return confirm('Are you sure?')">Xóa</a></span>
 							</div>
@@ -107,7 +114,8 @@
 				<hr>
 				<div class="row">
 					<div class="col" style="padding-left: 0;">ITEMS ${count }</div>
-					<div class="col text-right">&euro; ${total }</div>
+					<div class="col text-right"> <fmt:formatNumber type = "number"
+       pattern = "#,##0"  value = "${total }" /> VNĐ</div>
 				</div>
 				<form>
 					<p>Phí ship</p>
@@ -119,7 +127,8 @@
 				<div class="row"
 					style="border-top: 1px solid rgba(0, 0, 0, .1); padding: 2vh 0;">
 					<div class="col">Tổng</div>
-					<div class="col text-right">&euro; ${total }</div>
+					<div class="col text-right"> <fmt:formatNumber type = "number"
+       pattern = "#,##0"  value = "${total }" /> VNĐ</div>
 				</div>
 				<a href="${pageContext.request.contextPath }/payment" class="btn">THANH TOÁN</a>
 <!-- 				<button class="btn">CHECKOUT</button> -->

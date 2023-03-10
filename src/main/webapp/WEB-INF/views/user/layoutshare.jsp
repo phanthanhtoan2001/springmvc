@@ -118,7 +118,8 @@
 									id="navbarDropdown" role="button" data-toggle="dropdown"
 									aria-haspopup="true" aria-expanded="false"> Trang chủ </a></li>
 								<li class="nav-item dropdown"><a
-									class="nav-link dropdown-toggle" href="#" id="navbarDropdown2"
+									class="nav-link dropdown-toggle" 
+									href="${pageContext.request.contextPath}/flower/inforshop" id="navbarDropdown2"
 									role="button" data-toggle="dropdown" aria-haspopup="true"
 									aria-expanded="false"> Giới thiệu </a></li>
 
@@ -144,13 +145,13 @@
 						</div>
 					</nav>
 				</div>
-			
+
 				<div class="col-lg-2 col-md-4 col-6">
 					<div class="header-socials-2 text-right d-none d-lg-block">
 						<ul class="list-inline mb-0">
 							<%
 							User temp = (User) session.getAttribute("loginsession");
-							
+
 							if (temp == null) {
 							%>
 							<li class="list-inline-item"><a
@@ -168,7 +169,7 @@
 
 							%>
 							<li class="list-inline-item"><a
-								href="${pageContext.request.contextPath }/user/edit?id=<%=temp.getId()%>"><%=temp.getName()%>
+								href="${pageContext.request.contextPath }/user/updateinfor?id=<%=temp.getId()%>"><%=temp.getName()%>
 							</a></li>
 
 							<%

@@ -58,6 +58,11 @@ public class FlowerController {
 		return "listflower";
 
 	}
+	@RequestMapping(value = "/inforshop", method = RequestMethod.GET)
+	public String inforShop() {
+		
+		return "inforshop";
+	}
 	
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public String DetailFlower(@RequestParam(value = "id", required = true) String id, Model model) {

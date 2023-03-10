@@ -142,13 +142,13 @@
 								</p>
 						</a>
 							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="${pageContext.request.contextPath }/admin/flowercreate" class="nav-link"> <i
+								<li class="nav-item"><a href="${pageContext.request.contextPath }/admin/flowerindex" class="nav-link"> <i
 										class="far fa-circle nav-icon"></i>
 										<p>Sản phẩm</p>
 								</a></li>
-								<li class="nav-item"><a href="#" class="nav-link"> <i
+								<li class="nav-item"><a href="${pageContext.request.contextPath }/admin/flowercreate" class="nav-link"> <i
 										class="far fa-circle nav-icon"></i>
-										<p>Danh mục sản phẩm</p>
+										<p>Tạo sản phẩm</p>
 								</a></li>
 								
 

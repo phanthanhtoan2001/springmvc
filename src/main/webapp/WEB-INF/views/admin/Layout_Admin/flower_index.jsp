@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page session="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +23,7 @@
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1>Quản lý hóa đơn</h1>
+						<h1>Quản lý danh sách sản phẩm</h1>
 					</div>
 
 				</div>
@@ -38,60 +38,66 @@
 					<div class="col-12">
 						<div class="card">
 							<div class="card-header">
-								<h3 class="card-title">dữ liệu hóa đơn</h3>
+								<h3 class="card-title">Thông tin sản phẩm</h3>
 							</div>
 							<!-- /.card-header -->
 							<div class="card-body">
 								<form method="post"
-									action="${pageContext.request.contextPath }/admin/bill">
+									action="${pageContext.request.contextPath }/admin/flowerindex">
 									<table id="example2" class="table table-bordered table-hover">
+
 										<label
 											style="padding-left: 25%; display: flex; align-items: center">Search:<input
-											style="width: 50%;" name="searchemail" type="search"
+											style="width: 50%;" name="searchname" type="search"
 											class="form-control form-control-sm"
-											placeholder="Search Bill"">
+											placeholder="search with name flower"">
 											<button class="btn btn-navbar" type="submit">
 												<i class="fas fa-search"></i>
 											</button></label>
 										</form>
 										<thead>
 											<tr>
-												<th style="text-align: center;">Mã hóa đơn</th>
-												<th style="text-align: center;">loại thanh toán</th>
-												<th style="text-align: center;">mã chi tiết hóa đơn</th>
-												<th style="text-align: center;">ghi chú của khách hàng</th>
-												<th style="text-align: center;">Ngày mua hóa đơn</th>
+												<th style="text-align: center;">Mã hoa</th>
+												<th style="text-align: center;">Hình ảnh</th>
+												<th style="text-align: center;">Tên hoa</th>
+												<th style="text-align: center;">Giá</th>
+												<th style="text-align: center;">Số lượng còn</th>
 												<th style="text-align: center;"></th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach items="${list_bill}" var="list_bill">
+
+											<c:forEach items="${list_flower}" var="list_flower">
 												<tr align="center">
-													<td><c:out value="${list_bill.billid}" /></td>
-													<td><c:out 	value="${list_bill.method}" /></td>
-													<td><c:out value="${list_bill.orderid}" /></td>
-													<td><c:out value="${list_bill.note}" /></td>
-													<td>												<fmt:formatDate
-									pattern="dd/MM/yyyy" value="${list_bill.date}" /></td>
-													<td><a href="${pageContext.request.contextPath }/admin/bill/detail?id=${list_bill.billid}">chi tiết</a></td>
+													<td><c:out value="${list_flower.flowerid}" /></td>
+													<td><img style="width: 20vw; height: 20vh;"
+														src="<c:out  value="${list_flower.url}" />" alt=""
+														class="img-fluid w-100"></td>
+													<td><c:out value="${list_flower.name}" /></td>
 
-													<%-- <td><c:url var="editUrl"
-															value="/user/edit?id=${user.id}" /><a id="update"
+													<td><span
+														>
+															<fmt:formatNumber value="${list_flower.price}"
+																pattern="###,### VNĐ" />
+													</span></td>
+													<td><c:out value="${list_flower.stock}" /></td>
+
+													 <td><c:url var="editUrl"
+															value="/admin/update?id=${list_flower.flowerid}" /><a id=flowerid
 														href="${editUrl}" class="btn btn-warning">Update</a></td>
-													<td><c:url var="deleteUrl"
+													<%-- <td><c:url var="deleteUrl"
 															value="/user/delete?id=${user.id}" /><a id="delete"
-														href="${deleteUrl}" class="btn btn-danger">Delete</a></td> --%>
+														href="${deleteUrl}" class="btn btn-danger">Delete</a></td>  --%>
 												</tr>
-
 											</c:forEach>
 										</tbody>
 										<tfoot>
 											<tr>
-												<th style="text-align: center;">Mã hóa đơn</th>
-												<th style="text-align: center;">loại thanh toán</th>
-												<th style="text-align: center;">mã chi tiết hóa đơn</th>
-												<th style="text-align: center;">ghi chú của khách hàng</th>
-												<th style="text-align: center;">Ngày mua hóa đơn</th>
+												<th style="text-align: center;">Mã hoa</th>
+												<th style="text-align: center;">Hình ảnh</th>
+												<th style="text-align: center;">Tên hoa</th>
+												<th style="text-align: center;">Giá</th>
+												<th style="text-align: center;">Số lượng còn</th>
 												<th style="text-align: center;"></th>
 											</tr>
 										</tfoot>
