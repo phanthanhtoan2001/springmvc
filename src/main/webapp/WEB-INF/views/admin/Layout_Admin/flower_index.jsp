@@ -42,19 +42,10 @@
 							</div>
 							<!-- /.card-header -->
 							<div class="card-body">
-								<form method="post"
-									action="${pageContext.request.contextPath }/admin/flowerindex">
+								
 									<table id="example2" class="table table-bordered table-hover">
 
-										<label
-											style="padding-left: 25%; display: flex; align-items: center">Search:<input
-											style="width: 50%;" name="searchname" type="search"
-											class="form-control form-control-sm"
-											placeholder="search with name flower"">
-											<button class="btn btn-navbar" type="submit">
-												<i class="fas fa-search"></i>
-											</button></label>
-										</form>
+										
 										<thead>
 											<tr>
 												<th style="text-align: center;">Mã hoa</th>
@@ -151,7 +142,7 @@
 		$('#example2').DataTable({
 			"paging" : true,
 			"lengthChange" : false,
-			"searching" : false,
+			"searching" : true,
 			"ordering" : true,
 			"info" : true,
 			"autoWidth" : false,
