@@ -55,19 +55,13 @@ public class FlowerService {
 
 	// -------------------------------------------------------------------------------------------------
 	// Tìm kiếm hoa có trong db
-
-
 	public static List<Flower> search(String keyword) {
-
 		List<Flower> flowers = getAll();
-		List<Flower> result = new ArrayList<>();
-		for (Flower flower : flowers) {
-			if (flower.getName().contains(keyword.toLowerCase()) || flower.getName().toLowerCase().contains(keyword)) {
-				result.add(flower);
-			}
-		}
-		return result;
+		return flowers.stream().filter(flower -> flower.getName().toLowerCase().contains(keyword.toLowerCase()))
+				.collect(Collectors.toList());
 	}
+
+	
 	// ------------------------------------------------------------------------------------------
 	// Services chi tiết sản phẩm có rồi nên không copy vô
 
