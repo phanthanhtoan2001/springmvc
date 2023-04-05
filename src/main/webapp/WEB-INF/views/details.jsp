@@ -41,7 +41,7 @@
  
 								
 								<h4>Mô tả: ${userAttr.description}</h4>
-								<a type="button" class="btn btn-primary mt-3" href="${pageContext.request.contextPath }/cart/buy/${userAttr.flowerid}">Thêm
+								<a type="button" class="btn btn-primary mt-3" href="${pageContext.request.contextPath }/cart/buy/${userAttr.flowerid}/10">Thêm
 									vào giỏ hàng</a>
 							</div>
 						</div>
