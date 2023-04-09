@@ -1,0 +1,4 @@
+Test result: PASS
+Total tests run: 0
+Tests passed: 0
+Tests failed: 0
